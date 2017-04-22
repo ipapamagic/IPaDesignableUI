@@ -1,0 +1,6 @@
+use_frameworks!
+target 'IPaDesignableUI_Tests' do
+  pod 'IPaDesignableUI', :path => '../'
+  
+  
+end
