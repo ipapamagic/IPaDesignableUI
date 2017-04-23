@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IPaDesignableTextField: UITextField {
+open class IPaDesignableTextField: UITextField {
 
     @IBInspectable var cornerRadius: CGFloat = 0 {
         didSet {

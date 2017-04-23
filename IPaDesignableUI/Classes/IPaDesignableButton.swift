@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IPaDesignableButton: UIButton {
+open class IPaDesignableButton: UIButton {
     @IBInspectable var cornerRadius: CGFloat = 0 {
         didSet {
             layer.cornerRadius = cornerRadius
