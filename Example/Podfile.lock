@@ -1,5 +1,5 @@
 PODS:
-  - IPaDesignableUI (0.1.0)
+  - IPaDesignableUI (1.0)
 
 DEPENDENCIES:
   - IPaDesignableUI (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  IPaDesignableUI: 3dca5457368fb573561a832d0109ab44b459ea02
+  IPaDesignableUI: 18cb8b69cd4370c661491f8c34b458ee1446bbe7
 
 PODFILE CHECKSUM: f3dfc03b08fd7835cd130140944f72cb196356d9
 
