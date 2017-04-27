@@ -7,7 +7,7 @@
 //
 
 import UIKit
-@IBDesignable
+//@IBDesignable
 open class IPaDesignableTextField: UITextField {
 
     @IBInspectable open var cornerRadius: CGFloat = 0 {
@@ -25,6 +25,13 @@ open class IPaDesignableTextField: UITextField {
         didSet {
             layer.borderColor = borderColor?.cgColor
         }
+    }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 
 }

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+//@IBDesignable
 open class IPaDesignableTextView: UITextView {
 
     /*
@@ -33,4 +33,5 @@ open class IPaDesignableTextView: UITextView {
             layer.borderColor = borderColor?.cgColor
         }
     }
+    
 }

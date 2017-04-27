@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+//@IBDesignable
 open class IPaDesignableLabel: UILabel {
 
     /*
@@ -32,5 +32,12 @@ open class IPaDesignableLabel: UILabel {
         didSet {
             layer.borderColor = borderColor?.cgColor
         }
+    }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 }
