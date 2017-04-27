@@ -1,14 +1,14 @@
 //
-//  IPaDesignableTextView.swift
+//  IPaDesignableLabel.swift
 //  Pods
 //
-//  Created by IPa Chen on 2017/4/23.
+//  Created by IPa Chen on 2017/4/28.
 //
 //
 
 import UIKit
 
-open class IPaDesignableTextView: UITextView {
+open class IPaDesignableLabel: UILabel {
 
     /*
     // Only override draw() if you perform custom drawing.
