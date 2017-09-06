@@ -9,7 +9,7 @@
 import UIKit
 //@IBDesignable
 open class IPaDesignableTextField: UITextField {
-
+    @IBInspectable var textInset: CGFloat = 0
     @IBInspectable open var cornerRadius: CGFloat = 0 {
         didSet {
             layer.cornerRadius = cornerRadius
@@ -26,12 +26,19 @@ open class IPaDesignableTextField: UITextField {
             layer.borderColor = borderColor?.cgColor
         }
     }
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
     }
-    
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-
+    
+    
+    override open func textRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.insetBy(dx: textInset, dy: textInset)
+    }
+    
+    override open func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return textRect(forBounds: bounds)
+    }
 }

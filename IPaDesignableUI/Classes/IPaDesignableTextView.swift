@@ -33,5 +33,12 @@ open class IPaDesignableTextView: UITextView {
             layer.borderColor = borderColor?.cgColor
         }
     }
+    override public init(frame: CGRect, textContainer: NSTextContainer?) {
+        super.init(frame: frame, textContainer: textContainer)
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     
 }

@@ -25,11 +25,10 @@ open class IPaDesignableView: UIView {
             layer.borderColor = borderColor?.cgColor
         }
     }
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
     }
-    
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 }
