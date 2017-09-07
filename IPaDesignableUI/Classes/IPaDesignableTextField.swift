@@ -9,7 +9,40 @@
 import UIKit
 //@IBDesignable
 open class IPaDesignableTextField: UITextField {
-    @IBInspectable var textInset: CGFloat = 0
+    @IBInspectable public var bottomInset: CGFloat {
+        get {
+            return textInsets.bottom
+        }
+        set {
+            textInsets.bottom = newValue
+        }
+    }
+    @IBInspectable public var leftInset: CGFloat {
+        get {
+            return textInsets.left
+        }
+        set {
+            textInsets.left = newValue
+        }
+    }
+    @IBInspectable public var rightInset: CGFloat {
+        get {
+            return textInsets.right
+        }
+        set {
+            textInsets.right = newValue
+        }
+    }
+    @IBInspectable public var topInset: CGFloat {
+        get {
+            return textInsets.top
+        }
+        set {
+            textInsets.top = newValue
+        }
+    }
+    
+    @IBInspectable var textInsets: UIEdgeInsets = UIEdgeInsets.zero
     @IBInspectable open var cornerRadius: CGFloat = 0 {
         didSet {
             layer.cornerRadius = cornerRadius
@@ -35,10 +68,13 @@ open class IPaDesignableTextField: UITextField {
     
     
     override open func textRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.insetBy(dx: textInset, dy: textInset)
+        return UIEdgeInsetsInsetRect(bounds, textInsets)
     }
     
     override open func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return textRect(forBounds: bounds)
+    }
+    override open func placeholderRect(forBounds: CGRect) -> CGRect {
         return textRect(forBounds: bounds)
     }
 }
