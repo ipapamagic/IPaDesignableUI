@@ -7,7 +7,7 @@
 //
 
 import UIKit
-//@IBDesignable
+@IBDesignable
 open class IPaDesignableTextView: UITextView {
     @IBInspectable open var placeholder:String = ""
         {

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-//@IBDesignable
+@IBDesignable
 open class IPaDesignableLabel: UILabel {
     @IBInspectable public var bottomInset: CGFloat {
         get {

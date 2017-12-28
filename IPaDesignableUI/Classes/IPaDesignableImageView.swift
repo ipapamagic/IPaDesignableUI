@@ -6,8 +6,8 @@
 //
 
 import UIKit
-
-class IPaDesignableImageView: UIImageView {
+@IBDesignable
+open class IPaDesignableImageView: UIImageView {
 
     /*
     // Only override draw() if you perform custom drawing.
