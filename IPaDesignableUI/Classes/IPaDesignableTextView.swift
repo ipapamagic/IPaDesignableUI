@@ -7,8 +7,9 @@
 //
 
 import UIKit
-@IBDesignable
+//@IBDesignable
 open class IPaDesignableTextView: UITextView {
+    @IBInspectable open var caretHeight:CGFloat = 0
     @IBInspectable open var placeholder:String = ""
         {
         didSet {
@@ -129,5 +130,21 @@ open class IPaDesignableTextView: UITextView {
     override open func layoutSubviews() {
         super.layoutSubviews()
         self.setNeedsDisplay()
+    }
+    override open func caretRect(for position: UITextPosition) -> CGRect {
+        var superRect = super.caretRect(for:position)
+        if caretHeight <= 0 {
+            return superRect
+        }
+        superRect.size.height = caretHeight
+        // "descender" is expressed as a negative value,
+        // so to add its height you must subtract its value
+        
+        return superRect
+//        if caretHeight == 0 {
+//            return superRect
+//        }
+//        superRect.size.height = caretHeight
+//        return superRect
     }
 }

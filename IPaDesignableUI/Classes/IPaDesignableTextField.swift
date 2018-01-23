@@ -7,7 +7,7 @@
 //
 
 import UIKit
-@IBDesignable
+//@IBDesignable
 open class IPaDesignableTextField: UITextField {
     @IBInspectable public var bottomInset: CGFloat {
         get {

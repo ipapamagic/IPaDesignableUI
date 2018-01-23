@@ -6,7 +6,7 @@
 //
 
 import UIKit
-@IBDesignable
+//@IBDesignable
 open class IPaDesignableImageView: UIImageView {
 
     /*

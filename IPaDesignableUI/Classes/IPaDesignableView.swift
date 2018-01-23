@@ -7,7 +7,7 @@
 //
 
 import UIKit
-@IBDesignable
+//@IBDesignable
 open class IPaDesignableView: UIView {
     @IBInspectable open var cornerRadius: CGFloat = 0 {
         didSet {
