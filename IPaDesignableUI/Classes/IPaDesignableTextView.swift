@@ -77,6 +77,43 @@ open class IPaDesignableTextView: UITextView {
             layer.borderColor = borderColor?.cgColor
         }
     }
+    @IBInspectable open var shadowColor: UIColor? {
+        didSet {
+            self.layer.shadowColor = shadowColor?.cgColor
+        }
+    }
+    @IBInspectable open var shadowRadius: CGFloat {
+        set {
+            self.layer.shadowRadius = newValue
+        }
+        get {
+            return self.layer.shadowRadius
+        }
+    }
+    @IBInspectable open var shadowOffset: CGSize {
+        set {
+            self.layer.shadowOffset = newValue
+        }
+        get {
+            return self.layer.shadowOffset
+        }
+    }
+    @IBInspectable open var shadowOpacity: CGFloat {
+        set {
+            self.layer.shadowOpacity = Float(newValue)
+        }
+        get {
+            return CGFloat(self.layer.shadowOpacity)
+        }
+    }
+    open var shadowPath: CGPath? {
+        set {
+            self.layer.shadowPath = newValue
+        }
+        get {
+            return self.layer.shadowPath
+        }
+    }
     override public init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
     }
@@ -90,7 +127,8 @@ open class IPaDesignableTextView: UITextView {
         addTextChangeObserver()
     }
     func addTextChangeObserver() {
-        textChangedObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.UITextViewTextDidChange, object: self, queue: nil, using: {
+        
+        textChangedObserver = NotificationCenter.default.addObserver(forName: UITextView.textDidChangeNotification, object: self, queue: nil, using: {
             noti in
             self.setNeedsDisplay()
         })
@@ -113,9 +151,9 @@ open class IPaDesignableTextView: UITextView {
         }
         
         // attr
-        var attrs:[NSAttributedStringKey:Any] = [NSAttributedStringKey.foregroundColor:self.placeholderColor]
+        var attrs:[NSAttributedString.Key:Any] = [NSAttributedString.Key.foregroundColor:self.placeholderColor]
         if let font = self.font {
-            attrs[NSAttributedStringKey.font] = font
+            attrs[NSAttributedString.Key.font] = font
         }
         
         var placeHolderRect = rect

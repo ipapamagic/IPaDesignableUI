@@ -59,6 +59,43 @@ open class IPaDesignableTextField: UITextField {
             layer.borderColor = borderColor?.cgColor
         }
     }
+    @IBInspectable open var shadowColor: UIColor? {
+        didSet {
+            self.layer.shadowColor = shadowColor?.cgColor
+        }
+    }
+    @IBInspectable open var shadowRadius: CGFloat {
+        set {
+            self.layer.shadowRadius = newValue
+        }
+        get {
+            return self.layer.shadowRadius
+        }
+    }
+    @IBInspectable open var shadowOffset: CGSize {
+        set {
+            self.layer.shadowOffset = newValue
+        }
+        get {
+            return self.layer.shadowOffset
+        }
+    }
+    @IBInspectable open var shadowOpacity: CGFloat {
+        set {
+            self.layer.shadowOpacity = Float(newValue)
+        }
+        get {
+            return CGFloat(self.layer.shadowOpacity)
+        }
+    }
+    open var shadowPath: CGPath? {
+        set {
+            self.layer.shadowPath = newValue
+        }
+        get {
+            return self.layer.shadowPath
+        }
+    }
     public override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -68,7 +105,7 @@ open class IPaDesignableTextField: UITextField {
     
     
     override open func textRect(forBounds bounds: CGRect) -> CGRect {
-        return UIEdgeInsetsInsetRect(bounds, textInsets)
+        return bounds.inset(by: textInsets)
     }
     
     override open func editingRect(forBounds bounds: CGRect) -> CGRect {
