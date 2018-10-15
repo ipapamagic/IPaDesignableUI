@@ -128,7 +128,7 @@ open class IPaDesignableTextView: UITextView {
     }
     func addTextChangeObserver() {
         
-        textChangedObserver = NotificationCenter.default.addObserver(forName: UITextView.textDidChangeNotification, object: self, queue: nil, using: {
+        textChangedObserver = NotificationCenter.default.addObserver(forName:  NSNotification.Name.UITextViewTextDidChange, object: self, queue: nil, using: {
             noti in
             self.setNeedsDisplay()
         })
@@ -151,9 +151,9 @@ open class IPaDesignableTextView: UITextView {
         }
         
         // attr
-        var attrs:[NSAttributedString.Key:Any] = [NSAttributedString.Key.foregroundColor:self.placeholderColor]
+        var attrs:[NSAttributedStringKey:Any] = [NSAttributedStringKey.foregroundColor:self.placeholderColor]
         if let font = self.font {
-            attrs[NSAttributedString.Key.font] = font
+            attrs[NSAttributedStringKey.font] = font
         }
         
         var placeHolderRect = rect

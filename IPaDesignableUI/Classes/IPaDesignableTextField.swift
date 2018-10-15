@@ -105,7 +105,7 @@ open class IPaDesignableTextField: UITextField {
     
     
     override open func textRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: textInsets)
+        return UIEdgeInsetsInsetRect(bounds,textInsets)
     }
     
     override open func editingRect(forBounds bounds: CGRect) -> CGRect {

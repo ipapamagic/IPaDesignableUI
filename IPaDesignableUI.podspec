@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'IPaDesignableUI'
-  s.version          = '2.6'
+  s.version          = '2.5.1'
   s.summary          = 'A short description of IPaDesignableUI.'
 
 # This description is used to generate tags and improve search results.
@@ -31,7 +31,7 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '8.0'
 
   s.source_files = 'IPaDesignableUI/Classes/**/*'
-  s.swift_version = '4.2'
+  s.swift_version = '4.1'
   # s.resource_bundles = {
   #   'IPaDesignableUI' => ['IPaDesignableUI/Assets/*.png']
   # }

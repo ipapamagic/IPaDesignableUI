@@ -74,7 +74,8 @@ open class IPaDesignableLabel: UILabel {
         super.init(coder: aDecoder)
     }
     open override func drawText(in rect: CGRect) {
-        super.drawText(in:rect.inset(by: self.textInsets))
+        
+        super.drawText(in:UIEdgeInsetsInsetRect(rect,self.textInsets))
     }
     open override var intrinsicContentSize: CGSize
     {
