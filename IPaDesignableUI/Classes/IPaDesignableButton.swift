@@ -92,6 +92,13 @@ open class IPaDesignableButton: UIButton {
         y = (height - bounds.height) * 0.5
         contentEdgeInsets = UIEdgeInsets(top: y, left: x, bottom: y, right: x)
     }
+    @objc open func imageAlignRight(textLeftSpace:CGFloat, imageRightSpace:CGFloat) {
+        guard let imageView = imageView,let titleLabel = titleLabel else {
+            return
+        }
+        let space = self.bounds.width - textLeftSpace - imageRightSpace - imageView.bounds.width - titleLabel.bounds.width
+        self.imageAlignRight(space: space, textLeftSpace: textLeftSpace, imageRightSpace: imageRightSpace)
+    }
     @objc open func imageAlignRight(space:CGFloat,textLeftSpace:CGFloat = 0, imageRightSpace:CGFloat = 0) {
         guard let imageView = imageView,let titleLabel = titleLabel else {
             return
