@@ -9,6 +9,13 @@
 import UIKit
 //@IBDesignable
 open class IPaDesignableLabel: UILabel {
+    override open var bounds: CGRect {
+        didSet {
+            if self.cornerRadius > 0 && self.shadowColor != nil {
+                self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.cornerRadius).cgPath
+            }
+        }
+    }
     @IBInspectable public var bottomInset: CGFloat {
         get {
             return textInsets.bottom

@@ -9,10 +9,17 @@
 import UIKit
 //@IBDesignable
 open class IPaDesignableView: UIView {
+    override open var bounds: CGRect {
+        didSet {
+            if self.cornerRadius > 0 && self.shadowColor != nil {
+                self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.cornerRadius).cgPath
+            }
+        }
+    }
     @IBInspectable open var cornerRadius: CGFloat = 0 {
         didSet {
             layer.cornerRadius = cornerRadius
-            layer.masksToBounds = cornerRadius > 0
+            self.layer.masksToBounds = true
         }
     }
     @IBInspectable open var borderWidth: CGFloat = 0 {
@@ -27,7 +34,20 @@ open class IPaDesignableView: UIView {
     }
     @IBInspectable open var shadowColor: UIColor? {
         didSet {
-            self.layer.shadowColor = shadowColor?.cgColor
+            if shadowColor != nil {
+                self.layer.shadowColor = shadowColor?.cgColor
+                self.clipsToBounds = false
+                self.layer.masksToBounds = false
+                if self.cornerRadius > 0 {
+                    self.layer.shouldRasterize = true
+                    self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.cornerRadius).cgPath
+                }
+                
+            }
+            else {
+                self.layer.shadowColor = nil
+            }
+            
         }
     }
     @IBInspectable open var shadowRadius: CGFloat {
