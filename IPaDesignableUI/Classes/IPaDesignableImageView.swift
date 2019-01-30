@@ -16,6 +16,35 @@ open class IPaDesignableImageView: UIImageView {
         // Drawing code
     }
     */
+    fileprivate var ratioConstraint:NSLayoutConstraint?
+    override open var image: UIImage? {
+        didSet {
+            if let image = image {
+                let ratio = image.size.width / image.size.height
+                if let ratioConstraint = self.ratioConstraint {
+                    if ratioConstraint.multiplier == ratio {
+                        return
+                    }
+                    self.removeConstraint(ratioConstraint)
+                    self.ratioConstraint = nil
+                }
+                let ratioConstraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: self, attribute: .height, multiplier: ratio, constant: 0)
+                ratioConstraint.priority = UILayoutPriority(rawValue: 1)
+                self.addConstraint(ratioConstraint)
+                
+                self.ratioConstraint = ratioConstraint
+                
+            }
+            else {
+                if let ratioConstraint = ratioConstraint {
+                    self.removeConstraint(ratioConstraint)
+                    self.ratioConstraint = nil
+                }
+                
+            }
+            
+        }
+    }
     override open var bounds: CGRect {
         didSet {
             if self.cornerRadius > 0 && self.shadowColor != nil {
