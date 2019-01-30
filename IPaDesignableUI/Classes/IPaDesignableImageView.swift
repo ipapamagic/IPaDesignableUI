@@ -29,7 +29,7 @@ open class IPaDesignableImageView: UIImageView {
                     self.ratioConstraint = nil
                 }
                 let ratioConstraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: self, attribute: .height, multiplier: ratio, constant: 0)
-                ratioConstraint.priority = UILayoutPriority(rawValue: 1)
+                ratioConstraint.priority = UILayoutPriority(rawValue: 800)
                 self.addConstraint(ratioConstraint)
                 
                 self.ratioConstraint = ratioConstraint
