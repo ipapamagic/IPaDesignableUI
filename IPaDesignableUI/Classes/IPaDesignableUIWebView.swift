@@ -7,7 +7,7 @@
 
 import UIKit
 
-class IPaDesignableUIWebView: UIWebView {
+public class IPaDesignableUIWebView: UIWebView {
 
     @IBInspectable open var isScrollEnabled: Bool {
         get {
