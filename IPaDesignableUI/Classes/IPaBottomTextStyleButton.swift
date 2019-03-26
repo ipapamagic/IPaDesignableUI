@@ -25,7 +25,7 @@ open class IPaBottomTextStyleButton: IPaStyleButton {
         
         // raise the image and push it right so it appears centered
         //  above the text
-        let titleSize = titleText.size(withAttributes: [NSAttributedString.Key.font: titleLabel.font])
+        let titleSize = titleText.size(withAttributes: [NSAttributedString.Key.font: titleLabel.font as Any])
         x = titleSize.width * 0.5
         y = -(titleSize.height + centerSpace) * 0.5
         imageEdgeInsets = UIEdgeInsets(
