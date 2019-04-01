@@ -12,7 +12,7 @@ open class IPaStyleButton: IPaDesignableButton {
         super.awakeFromNib()
         reloadStyle()
     }
-    func reloadStyle() {
+    public func reloadStyle() {
         
     }
     func clearStyle() {

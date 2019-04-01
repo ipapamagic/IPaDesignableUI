@@ -13,7 +13,7 @@ open class IPaBottomTextStyleButton: IPaStyleButton {
             self.reloadStyle()
         }
     }
-    override func reloadStyle() {
+    public override func reloadStyle() {
         guard let imageView = imageView,let image = imageView.image,let titleLabel = titleLabel,let titleText = titleLabel.text else {
             return
         }
