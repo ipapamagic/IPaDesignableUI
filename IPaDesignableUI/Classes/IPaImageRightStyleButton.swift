@@ -30,7 +30,7 @@ open class IPaImageRightStyleButton: IPaStyleButton {
         // Drawing code
     }
     */
-    override func reloadStyle() {
+    public override func reloadStyle() {
         guard let imageView = imageView,let titleLabel = titleLabel else {
             return
         }
