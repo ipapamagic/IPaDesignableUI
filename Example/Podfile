@@ -4,6 +4,6 @@ use_frameworks!
 
 target 'IPaDesignableUI_Example' do
   pod 'IPaDesignableUI', :path => '../'
-  
+  #pod 'IPaDownloadManager', :path=> '~/IPaDoc/MyWork/iOSLibrary/IPaDownloadManager'
 
 end

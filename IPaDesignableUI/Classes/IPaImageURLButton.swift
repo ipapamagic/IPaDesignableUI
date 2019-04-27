@@ -33,7 +33,7 @@ import IPaDownloadManager
     @objc open func setImageURL(_ imageURL:String?,defaultImage:UIImage?) {
         self.setImage(defaultImage, for: .normal)
         if let imageURLString = imageURL , let imageUrl = URL(string: imageURLString) {
-            IPaDownloadManager.shared.download(from: imageUrl, downloadId: imageURLString) { (result) in
+            _ = IPaDownloadManager.shared.download(from: imageUrl) { (result) in
                 switch(result) {
                 case .success(let url):
                     do {
@@ -58,7 +58,7 @@ import IPaDownloadManager
     @objc open func setBackgroundImageURL(_ imageURL:String?,defaultImage:UIImage?) {
         self.setBackgroundImage(defaultImage, for: .normal)
         if let imageURLString = imageURL , let imageUrl = URL(string: imageURLString) {
-            IPaDownloadManager.shared.download(from: imageUrl, downloadId: imageURLString) { (result) in
+            _ = IPaDownloadManager.shared.download(from: imageUrl) { (result) in
                 switch(result) {
                 case .success(let url):
                     do {

@@ -38,7 +38,7 @@ import IPaDownloadManager
         _imageURL = imageURL
         self.image = defaultImage
         if let imageURLString = imageURL , let imageUrl = URL(string: imageURLString) {
-            IPaDownloadManager.shared.download(from: imageUrl, downloadId: imageURLString, complete: { (result) in
+            _ = IPaDownloadManager.shared.download(from: imageUrl, complete: { (result) in
                 switch(result) {
                 case .success(let url):
                     do {
@@ -55,8 +55,6 @@ import IPaDownloadManager
                         IPaLog(error.localizedDescription)
                     }
                 case .failure(let error):
-                    let string = error.localizedDescription
-                    
                     IPaLog(error.localizedDescription)
                 }
             })
@@ -65,7 +63,7 @@ import IPaDownloadManager
     @objc open func setHighlightedImageURL(_ imageURL:String?,defaultImage:UIImage?) {
         self.highlightedImage = defaultImage
         if let imageURLString = imageURL , let imageUrl = URL(string: imageURLString) {
-            IPaDownloadManager.shared.download(from: imageUrl, downloadId: imageURLString) { (result) in
+            _ = IPaDownloadManager.shared.download(from: imageUrl) { (result) in
                 switch(result) {
                 case .success(let url):
                     if let image = UIImage(contentsOfFile: url.absoluteString) {
