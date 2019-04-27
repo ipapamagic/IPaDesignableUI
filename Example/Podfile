@@ -1,6 +1,9 @@
+source 'https://github.com/ipapamagic/IPaPods.git'
+source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
-target 'IPaDesignableUI_Tests' do
+
+target 'IPaDesignableUI_Example' do
   pod 'IPaDesignableUI', :path => '../'
   
-  
+
 end
