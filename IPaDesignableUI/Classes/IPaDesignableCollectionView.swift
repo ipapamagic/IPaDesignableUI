@@ -85,12 +85,10 @@ open class IPaDesignableCollectionView: UICollectionView {
     
     override open var intrinsicContentSize: CGSize {
         
-        return self.isScrollEnabled ? super.intrinsicContentSize : self.collectionViewLayout.collectionViewContentSize
+        return self.collectionViewLayout.collectionViewContentSize
     }
     open override func reloadData() {
         super.reloadData()
-        if !self.isScrollEnabled {
-            self.invalidateIntrinsicContentSize()
-        }
+        self.invalidateIntrinsicContentSize()
     }
 }
