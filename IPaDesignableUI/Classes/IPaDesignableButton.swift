@@ -35,14 +35,16 @@ open class IPaDesignableButton: UIButton {
     @IBInspectable open var shadowColor: UIColor? {
         didSet {
             if shadowColor != nil {
+                
                 self.layer.shadowColor = shadowColor?.cgColor
                 self.clipsToBounds = false
                 self.layer.masksToBounds = false
+                
                 if self.cornerRadius > 0 {
                     self.layer.shouldRasterize = true
                     self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.cornerRadius).cgPath
                 }
-                
+                self.layer.contentsScale = UIScreen.main.scale
             }
             else {
                 self.layer.shadowColor = nil
