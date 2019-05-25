@@ -32,23 +32,14 @@ open class IPaDesignableButton: UIButton {
             layer.borderColor = borderColor?.cgColor
         }
     }
+    @IBInspectable open var shadowCornerRadius: CGFloat = 0 {
+        didSet {
+            self.refreshShadowSetting()
+        }
+    }
     @IBInspectable open var shadowColor: UIColor? {
         didSet {
-            if shadowColor != nil {
-                
-                self.layer.shadowColor = shadowColor?.cgColor
-                self.clipsToBounds = false
-                self.layer.masksToBounds = false
-                
-                if self.cornerRadius > 0 {
-                    self.layer.shouldRasterize = true
-                    self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.cornerRadius).cgPath
-                }
-                self.layer.contentsScale = UIScreen.main.scale
-            }
-            else {
-                self.layer.shadowColor = nil
-            }
+            self.refreshShadowSetting()
             
         }
     }
@@ -90,5 +81,21 @@ open class IPaDesignableButton: UIButton {
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-   
+    fileprivate func refreshShadowSetting() {
+        if shadowColor != nil {
+            self.layer.shadowColor = shadowColor?.cgColor
+            self.clipsToBounds = false
+            self.layer.masksToBounds = false
+            
+            if self.shadowCornerRadius > 0 {
+                self.layer.shouldRasterize = true
+                self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.cornerRadius).cgPath
+            }
+            self.layer.contentsScale = UIScreen.main.scale
+        }
+        else {
+            self.layer.shadowColor = nil
+        }
+        
+    }
 }
