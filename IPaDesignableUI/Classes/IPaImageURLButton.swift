@@ -33,11 +33,18 @@ import IPaDownloadManager
     @objc open func setImageURL(_ imageURL:String?,defaultImage:UIImage?) {
         self.setImage(defaultImage, for: .normal)
         if let imageURLString = imageURL , let imageUrl = URL(string: imageURLString) {
+            if let data = IPaImageURLCache.shared.cacheFile(with: imageUrl), let image = UIImage(data: data) {
+                DispatchQueue.main.async(execute: {
+                    self.setImage(image, for: .normal)
+                })
+                return
+            }
             _ = IPaDownloadManager.shared.download(from: imageUrl) { (result) in
                 switch(result) {
-                case .success(let url):
+                case .success(let (_,url)):
                     do {
-                        let data = try Data(contentsOf: url)
+                        let newUrl = IPaImageURLCache.shared.saveCache(with: imageUrl, from: url)
+                        let data = try Data(contentsOf: newUrl)
                         if  let image = UIImage(data: data) {
 
                             DispatchQueue.main.async(execute: {
@@ -58,11 +65,18 @@ import IPaDownloadManager
     @objc open func setBackgroundImageURL(_ imageURL:String?,defaultImage:UIImage?) {
         self.setBackgroundImage(defaultImage, for: .normal)
         if let imageURLString = imageURL , let imageUrl = URL(string: imageURLString) {
+            if let data = IPaImageURLCache.shared.cacheFile(with: imageUrl), let image = UIImage(data: data) {
+                DispatchQueue.main.async(execute: {
+                    self.setBackgroundImage(image, for: .normal)
+                })
+                return
+            }
             _ = IPaDownloadManager.shared.download(from: imageUrl) { (result) in
                 switch(result) {
-                case .success(let url):
+                case .success(let (_,url)):
                     do {
-                        let data = try Data(contentsOf: url)
+                        let newUrl = IPaImageURLCache.shared.saveCache(with: imageUrl, from: url)
+                        let data = try Data(contentsOf: newUrl)
                         if  let image = UIImage(data: data)                             {
                             DispatchQueue.main.async(execute: {
                                 self.setBackgroundImage(image, for: .normal)

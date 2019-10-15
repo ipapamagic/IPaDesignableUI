@@ -11,15 +11,15 @@ public class IPaFitContentUIWebView: IPaDesignableUIWebView {
     fileprivate var scrollViewObserver:Any?
     fileprivate var contentHeight:CGFloat = 0 {
         didSet {
-            guard let superview = self.superview ,self.heightConstraint.constant != contentHeight else{
+            guard self.heightConstraint.constant != contentHeight else{
                 return
             }
             
             
             self.invalidateIntrinsicContentSize()
             self.heightConstraint.constant = contentHeight
-            superview.setNeedsLayout()
-            superview.layoutIfNeeded()
+            self.window?.setNeedsLayout()
+            self.window?.layoutIfNeeded()
         }
     }
     lazy var heightConstraint:NSLayoutConstraint = {
@@ -46,7 +46,9 @@ public class IPaFitContentUIWebView: IPaDesignableUIWebView {
         self.initFitContent()
     }
     fileprivate func initFitContent() {
-        scrollViewObserver = self.scrollView.observe(\UIScrollView.contentSize, changeHandler: { scrollView, change in
+        self.contentHeight = 10
+        self.scrollView.contentSize = CGSize.zero
+        scrollViewObserver = self.scrollView.observe(\UIScrollView.contentSize,options: [.new], changeHandler: { scrollView, change in
             self.contentHeight = self.scrollView.contentSize.height
             
         })

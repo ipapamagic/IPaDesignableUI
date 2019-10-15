@@ -38,11 +38,19 @@ import IPaDownloadManager
         _imageURL = imageURL
         self.image = defaultImage
         if let imageURLString = imageURL , let imageUrl = URL(string: imageURLString) {
+            if let data = IPaImageURLCache.shared.cacheFile(with: imageUrl), let image = UIImage(data: data) {
+                DispatchQueue.main.async(execute: {
+                    self.image = image
+                })
+                return
+            }
+            
             _ = IPaDownloadManager.shared.download(from: imageUrl, complete: { (result) in
                 switch(result) {
-                case .success(let url):
+                case .success(let (_,url)):
                     do {
-                        let data = try Data(contentsOf: url)
+                        let newUrl = IPaImageURLCache.shared.saveCache(with: imageUrl, from: url)
+                        let data = try Data(contentsOf: newUrl)
                         if  let image = UIImage(data: data) {
                             
                             DispatchQueue.main.async(execute: {
@@ -63,10 +71,17 @@ import IPaDownloadManager
     @objc open func setHighlightedImageURL(_ imageURL:String?,defaultImage:UIImage?) {
         self.highlightedImage = defaultImage
         if let imageURLString = imageURL , let imageUrl = URL(string: imageURLString) {
+            if let data = IPaImageURLCache.shared.cacheFile(with: imageUrl), let image = UIImage(data: data) {
+                DispatchQueue.main.async(execute: {
+                    self.highlightedImage = image
+                })
+                return
+            }
             _ = IPaDownloadManager.shared.download(from: imageUrl) { (result) in
                 switch(result) {
-                case .success(let url):
-                    if let image = UIImage(contentsOfFile: url.absoluteString) {
+                case .success(let (_,url)):
+                    let newUrl = IPaImageURLCache.shared.saveCache(with: imageUrl, from: url)
+                    if let image = UIImage(contentsOfFile: newUrl.absoluteString) {
                         DispatchQueue.main.async(execute: {
                             self.highlightedImage = image
                         })
