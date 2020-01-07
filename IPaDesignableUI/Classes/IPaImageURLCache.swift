@@ -13,17 +13,11 @@ class IPaImageURLCache: NSObject {
         var cachePath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0]
         cachePath = (cachePath as NSString).appendingPathComponent("IPaImageURLCache")
         let fileMgr = FileManager.default
-        if !fileMgr.fileExists(atPath: cachePath) {
-            var error:NSError?
-            do {
-                try fileMgr.createDirectory(atPath: cachePath, withIntermediateDirectories: true, attributes: nil)
-            } catch let error1 as NSError {
-                error = error1
-            }
-            if let error = error {
-                print(error)
-            }
+        if fileMgr.fileExists(atPath: cachePath) {
+            //remove cache at begining
+            try? fileMgr.removeItem(atPath: cachePath)
         }
+        try? fileMgr.createDirectory(atPath: cachePath, withIntermediateDirectories: true, attributes: nil)
         return cachePath
     }()
     func cacheFile(with url:URL) -> Data?  {

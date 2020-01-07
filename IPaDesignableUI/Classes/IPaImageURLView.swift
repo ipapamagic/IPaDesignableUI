@@ -13,7 +13,13 @@ import IPaDownloadManager
 @objc open class IPaImageURLView : IPaDesignableImageView {
     fileprivate var _imageURL:String?
     fileprivate var _highlightedImageURL:String?
-
+    var downloadOperation:Operation? {
+        willSet {
+            if let operation = downloadOperation,!(operation.isCancelled || operation.isFinished) {
+                operation.cancel()
+            }
+        }
+    }
     @objc open var imageURL:String? {
         get {
             return _imageURL
@@ -44,8 +50,8 @@ import IPaDownloadManager
                 })
                 return
             }
-            
-            _ = IPaDownloadManager.shared.download(from: imageUrl, complete: { (result) in
+            downloadOperation = IPaDownloadManager.shared.download(from: imageUrl, complete: { (result) in
+                self.downloadOperation = nil
                 switch(result) {
                 case .success(let (_,url)):
                     do {

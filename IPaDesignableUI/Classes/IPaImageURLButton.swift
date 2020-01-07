@@ -12,6 +12,20 @@ import IPaDownloadManager
 @objc open class IPaImageURLButton : IPaDesignableButton {
     private var _imageURL:String?
     private var _backgroundImageURL:String?
+    var downloadImageOperation:Operation? {
+        willSet {
+            if let operation = downloadImageOperation,!(operation.isCancelled || operation.isFinished) {
+                operation.cancel()
+            }
+        }
+    }
+    var downloadBGImageOperation:Operation? {
+        willSet {
+            if let operation = downloadBGImageOperation,!(operation.isCancelled && operation.isFinished) {
+                operation.cancel()
+            }
+        }
+    }
     @objc open var imageURL:String? {
         get {
             return _imageURL
@@ -39,7 +53,8 @@ import IPaDownloadManager
                 })
                 return
             }
-            _ = IPaDownloadManager.shared.download(from: imageUrl) { (result) in
+            downloadImageOperation = IPaDownloadManager.shared.download(from: imageUrl) { (result) in
+                self.downloadImageOperation = nil
                 switch(result) {
                 case .success(let (_,url)):
                     do {
@@ -71,7 +86,8 @@ import IPaDownloadManager
                 })
                 return
             }
-            _ = IPaDownloadManager.shared.download(from: imageUrl) { (result) in
+            downloadBGImageOperation = IPaDownloadManager.shared.download(from: imageUrl) { (result) in
+                self.downloadBGImageOperation = nil
                 switch(result) {
                 case .success(let (_,url)):
                     do {
