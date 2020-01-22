@@ -8,6 +8,13 @@
 import UIKit
 import WebKit
 open class IPaDesignableWebView: WKWebView {
+    fileprivate var cornerMask:CAShapeLayer?
+    open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        self.cornerMask = CAShapeLayer()
+        self.cornerMask?.path = path.cgPath
+        layer.mask = self.cornerMask
+    }
     @IBInspectable open var isScrollEnabled: Bool {
         get {
             return self.scrollView.isScrollEnabled

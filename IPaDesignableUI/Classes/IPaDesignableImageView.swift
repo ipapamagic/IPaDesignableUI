@@ -16,6 +16,13 @@ open class IPaDesignableImageView: UIImageView {
         // Drawing code
     }
     */
+    fileprivate var cornerMask:CAShapeLayer?
+    open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        self.cornerMask = CAShapeLayer()
+        self.cornerMask?.path = path.cgPath
+        layer.mask = self.cornerMask
+    }
     fileprivate var ratioConstraint:NSLayoutConstraint?
     override open var image: UIImage? {
         didSet {
@@ -29,7 +36,7 @@ open class IPaDesignableImageView: UIImageView {
                     self.ratioConstraint = nil
                 }
                 let ratioConstraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: self, attribute: .height, multiplier: ratio, constant: 0)
-                ratioConstraint.priority = UILayoutPriority(rawValue: 800)
+                ratioConstraint.priority = UILayoutPriority(rawValue: 250)
                 self.addConstraint(ratioConstraint)
                 
                 self.ratioConstraint = ratioConstraint

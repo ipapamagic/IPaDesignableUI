@@ -9,6 +9,13 @@
 import UIKit
 //@IBDesignable
 open class IPaDesignableLabel: UILabel {
+    fileprivate var cornerMask:CAShapeLayer?
+    open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        self.cornerMask = CAShapeLayer()
+        self.cornerMask?.path = path.cgPath
+        layer.mask = self.cornerMask
+    }
     override open var bounds: CGRect {
         didSet {
             if self.cornerRadius > 0 && self.shadowColor != nil {
