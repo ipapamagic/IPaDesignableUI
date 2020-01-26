@@ -56,7 +56,7 @@ open class IPaDesignableLabel: UILabel {
         }
     }
     
-    @IBInspectable var textInsets: UIEdgeInsets = UIEdgeInsets.zero
+    @IBInspectable public var textInsets: UIEdgeInsets = UIEdgeInsets.zero
     /*
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
