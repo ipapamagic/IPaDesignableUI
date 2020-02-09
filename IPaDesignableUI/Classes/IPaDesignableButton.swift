@@ -8,78 +8,77 @@
 
 import UIKit
 //@IBDesignable
-open class IPaDesignableButton: UIButton {
-    fileprivate var cornerMask:CAShapeLayer?
-    open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
-        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        self.cornerMask = CAShapeLayer()
-        self.cornerMask?.path = path.cgPath
-        layer.mask = self.cornerMask
-    }
-    override open var bounds: CGRect {
-        didSet {
-            if self.cornerRadius > 0 && self.shadowColor != nil {
-                self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.cornerRadius).cgPath
-            }
+open class IPaDesignableButton: UIButton,IPaDesignable,IPaDesignableShadow {
+    open var cornerMask:CAShapeLayer?
+    @IBInspectable open var cornerRadius:CGFloat {
+        get {
+            return self.getCornerRadius()
+        }
+        set {
+            self.setCornerRadius(newValue)
         }
     }
-    @IBInspectable open var cornerRadius: CGFloat = 0 {
-        didSet {
-            layer.cornerRadius = cornerRadius
-            layer.masksToBounds = cornerRadius > 0
+    @IBInspectable open var borderWidth:CGFloat {
+        get {
+            return self.getBorderWidth()
+        }
+        set {
+            self.setBorderWidth(newValue)
         }
     }
-    @IBInspectable open var borderWidth: CGFloat = 0 {
-        didSet {
-            layer.borderWidth = borderWidth
+    @IBInspectable open var borderColor:UIColor? {
+        get {
+            return self.getBorderColor()
         }
-    }
-    @IBInspectable open var borderColor: UIColor? {
-        didSet {
-            layer.borderColor = borderColor?.cgColor
+        set {
+            self.setBorderColor(newValue)
         }
     }
     @IBInspectable open var shadowCornerRadius: CGFloat = 0 {
         didSet {
-            self.refreshShadowSetting()
+            self.setShadowCornerRadius(shadowCornerRadius)
         }
     }
-    @IBInspectable open var shadowColor: UIColor? {
+    @IBInspectable open var shadowColor:UIColor? {
         didSet {
-            self.refreshShadowSetting()
-            
+            self.setShadowColor(shadowColor)
         }
     }
-    @IBInspectable open var shadowRadius: CGFloat {
-        set {
-            self.layer.shadowRadius = newValue
-        }
+    @IBInspectable open var shadowRadius:CGFloat {
         get {
-            return self.layer.shadowRadius
+            return self.getShadowRadius()
+        }
+        set {
+            self.setShadowRadius(newValue)
         }
     }
-    @IBInspectable open var shadowOffset: CGSize {
-        set {
-            self.layer.shadowOffset = newValue
-        }
+    @IBInspectable open var shadowOffset:CGSize {
         get {
-            return self.layer.shadowOffset
+            return self.getShadowOffset()
+        }
+        set {
+            self.setShadowOffset(newValue)
         }
     }
-    @IBInspectable open var shadowOpacity: CGFloat {
-        set {
-            self.layer.shadowOpacity = Float(newValue)
-        }
+    @IBInspectable open var shadowOpacity:CGFloat {
         get {
-            return CGFloat(self.layer.shadowOpacity)
+            return self.getShadowOpacity()
+        }
+        set {
+            self.setShadowOpacity(newValue)
         }
     }
-    open var shadowPath: CGPath? {
-        set {
-            self.layer.shadowPath = newValue
-        }
+    open var shadowPath:CGPath? {
         get {
-            return self.layer.shadowPath
+            return self.getShadowPath()
+        }
+        set {
+            self.setShadowPath(newValue)
+        }
+    }
+    override open var bounds: CGRect {
+        didSet {
+            self.updateShadowPath()
         }
     }
     public override init(frame: CGRect) {
@@ -88,21 +87,7 @@ open class IPaDesignableButton: UIButton {
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    fileprivate func refreshShadowSetting() {
-        if shadowColor != nil {
-            self.layer.shadowColor = shadowColor?.cgColor
-            self.clipsToBounds = false
-            self.layer.masksToBounds = false
-            
-            if self.shadowCornerRadius > 0 {
-                self.layer.shouldRasterize = true
-                self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.cornerRadius).cgPath
-            }
-            self.layer.contentsScale = UIScreen.main.scale
-        }
-        else {
-            self.layer.shadowColor = nil
-        }
-        
+    open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+        self.doRoundCorners(corners: corners, radius: radius)
     }
 }

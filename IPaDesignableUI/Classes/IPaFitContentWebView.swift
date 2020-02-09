@@ -11,13 +11,12 @@ import WebKit
 open class IPaFitContentWebView: IPaDesignableWebView {
     fileprivate var contentHeight:CGFloat = 0 {
         didSet {
-            guard let superview = self.superview ,self.heightConstraint.constant != contentHeight else{
+            guard self.heightConstraint.constant != contentHeight else{
                 return
             }
-            self.invalidateIntrinsicContentSize()
             self.heightConstraint.constant = contentHeight
-            superview.setNeedsLayout()
-            superview.layoutIfNeeded()
+            self.invalidateIntrinsicContentSize()
+            self.setNeedsLayout()
         }
     }
     lazy var heightConstraint:NSLayoutConstraint = {

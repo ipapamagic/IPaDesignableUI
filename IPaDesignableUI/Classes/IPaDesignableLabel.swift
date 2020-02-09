@@ -8,19 +8,30 @@
 
 import UIKit
 //@IBDesignable
-open class IPaDesignableLabel: UILabel {
-    fileprivate var cornerMask:CAShapeLayer?
-    open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
-        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        self.cornerMask = CAShapeLayer()
-        self.cornerMask?.path = path.cgPath
-        layer.mask = self.cornerMask
+open class IPaDesignableLabel: UILabel,IPaDesignable ,IPaDesignableTextInset{
+    open var cornerMask:CAShapeLayer?
+    @IBInspectable open var cornerRadius:CGFloat {
+        get {
+            return self.getCornerRadius()
+        }
+        set {
+            self.setCornerRadius(newValue)
+        }
     }
-    override open var bounds: CGRect {
-        didSet {
-            if self.cornerRadius > 0 && self.shadowColor != nil {
-                self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.cornerRadius).cgPath
-            }
+    @IBInspectable open var borderWidth:CGFloat {
+        get {
+            return self.getBorderWidth()
+        }
+        set {
+            self.setBorderWidth(newValue)
+        }
+    }
+    @IBInspectable open var borderColor:UIColor? {
+        get {
+            return self.getBorderColor()
+        }
+        set {
+            self.setBorderColor(newValue)
         }
     }
     @IBInspectable public var bottomInset: CGFloat {
@@ -64,23 +75,7 @@ open class IPaDesignableLabel: UILabel {
         // Drawing code
     }
     */
-    @IBInspectable open var cornerRadius: CGFloat = 0 {
-        didSet {
-            layer.cornerRadius = cornerRadius
-            layer.masksToBounds = cornerRadius > 0
-        }
-    }
-    @IBInspectable open var borderWidth: CGFloat = 0 {
-        didSet {
-            layer.borderWidth = borderWidth
-        }
-    }
-    @IBInspectable open var borderColor: UIColor? {
-        didSet {
-            layer.borderColor = borderColor?.cgColor
-        }
-    }
-    
+
     public override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -98,5 +93,8 @@ open class IPaDesignableLabel: UILabel {
             size.height += self.textInsets.top + self.textInsets.bottom
             return size
         }
+    }
+    open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+        self.doRoundCorners(corners: corners, radius: radius)
     }
 }

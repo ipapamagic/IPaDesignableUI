@@ -8,19 +8,78 @@
 
 import UIKit
 //@IBDesignable
-open class IPaDesignableTextView: UITextView {
-    fileprivate var cornerMask:CAShapeLayer?
-    open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
-        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        self.cornerMask = CAShapeLayer()
-        self.cornerMask?.path = path.cgPath
-        layer.mask = self.cornerMask
+open class IPaDesignableTextView: UITextView,IPaDesignable,IPaDesignableShadow,IPaDesignableTextInset {
+    open var cornerMask:CAShapeLayer?
+    @IBInspectable open var cornerRadius:CGFloat {
+        get {
+            return self.getCornerRadius()
+        }
+        set {
+            self.setCornerRadius(newValue)
+        }
+    }
+    @IBInspectable open var borderWidth:CGFloat {
+        get {
+            return self.getBorderWidth()
+        }
+        set {
+            self.setBorderWidth(newValue)
+        }
+    }
+    @IBInspectable open var borderColor:UIColor? {
+        get {
+            return self.getBorderColor()
+        }
+        set {
+            self.setBorderColor(newValue)
+        }
+    }
+
+    @IBInspectable open var shadowCornerRadius: CGFloat = 0 {
+        didSet {
+            self.setShadowCornerRadius(shadowCornerRadius)
+        }
+    }
+    @IBInspectable open var shadowColor:UIColor? {
+        didSet {
+            self.setShadowColor(shadowColor)
+        }
+    }
+    @IBInspectable open var shadowRadius:CGFloat {
+        get {
+            return self.getShadowRadius()
+        }
+        set {
+            self.setShadowRadius(newValue)
+        }
+    }
+    @IBInspectable open var shadowOffset:CGSize {
+        get {
+            return self.getShadowOffset()
+        }
+        set {
+            self.setShadowOffset(newValue)
+        }
+    }
+    @IBInspectable open var shadowOpacity:CGFloat {
+        get {
+            return self.getShadowOpacity()
+        }
+        set {
+            self.setShadowOpacity(newValue)
+        }
+    }
+    open var shadowPath:CGPath? {
+        get {
+            return self.getShadowPath()
+        }
+        set {
+            self.setShadowPath(newValue)
+        }
     }
     override open var bounds: CGRect {
         didSet {
-            if self.cornerRadius > 0 && self.shadowColor != nil {
-                self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.cornerRadius).cgPath
-            }
+            self.updateShadowPath()
         }
     }
     @IBInspectable open var caretHeight:CGFloat = 0
@@ -75,72 +134,7 @@ open class IPaDesignableTextView: UITextView {
         // Drawing code
     }
     */
-    @IBInspectable open var cornerRadius: CGFloat = 0 {
-        didSet {
-            layer.cornerRadius = cornerRadius
-            layer.masksToBounds = cornerRadius > 0
-        }
-    }
-    @IBInspectable open var borderWidth: CGFloat = 0 {
-        didSet {
-            layer.borderWidth = borderWidth
-        }
-    }
-    @IBInspectable open var borderColor: UIColor? {
-        didSet {
-            layer.borderColor = borderColor?.cgColor
-        }
-    }
-    @IBInspectable open var shadowColor: UIColor? {
-        didSet {
-            if shadowColor != nil {
-                self.layer.shadowColor = shadowColor?.cgColor
-                self.clipsToBounds = false
-                self.layer.masksToBounds = false
-                if self.cornerRadius > 0 {
-                    self.layer.shouldRasterize = true
-                    self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.cornerRadius).cgPath
-                }
-                
-            }
-            else {
-                self.layer.shadowColor = nil
-            }
-            
-        }
-    }
-    @IBInspectable open var shadowRadius: CGFloat {
-        set {
-            self.layer.shadowRadius = newValue
-        }
-        get {
-            return self.layer.shadowRadius
-        }
-    }
-    @IBInspectable open var shadowOffset: CGSize {
-        set {
-            self.layer.shadowOffset = newValue
-        }
-        get {
-            return self.layer.shadowOffset
-        }
-    }
-    @IBInspectable open var shadowOpacity: CGFloat {
-        set {
-            self.layer.shadowOpacity = Float(newValue)
-        }
-        get {
-            return CGFloat(self.layer.shadowOpacity)
-        }
-    }
-    open var shadowPath: CGPath? {
-        set {
-            self.layer.shadowPath = newValue
-        }
-        get {
-            return self.layer.shadowPath
-        }
-    }
+    
     override public init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
     }
@@ -211,5 +205,8 @@ open class IPaDesignableTextView: UITextView {
 //        }
 //        superRect.size.height = caretHeight
 //        return superRect
+    }
+    open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+        self.doRoundCorners(corners: corners, radius: radius)
     }
 }

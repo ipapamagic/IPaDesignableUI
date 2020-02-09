@@ -9,9 +9,10 @@
 import Foundation
 import UIKit
 import IPaDownloadManager
-@objc open class IPaImageURLButton : IPaDesignableButton {
+@objc open class IPaImageURLButton : IPaDesignableButton,IPaDesignableFitImage {
     private var _imageURL:String?
     private var _backgroundImageURL:String?
+    var ratioConstraint:NSLayoutConstraint?
     var downloadImageOperation:Operation? {
         willSet {
             if let operation = downloadImageOperation,!(operation.isCancelled || operation.isFinished) {
@@ -42,8 +43,6 @@ import IPaDownloadManager
             setBackgroundImageURL(newValue, defaultImage: nil)
         }
     }
-    
-    
     @objc open func setImageURL(_ imageURL:String?,defaultImage:UIImage?) {
         self.setImage(defaultImage, for: .normal)
         if let imageURLString = imageURL , let imageUrl = URL(string: imageURLString) {
@@ -94,10 +93,17 @@ import IPaDownloadManager
                         let newUrl = IPaImageURLCache.shared.saveCache(with: imageUrl, from: url)
                         let data = try Data(contentsOf: newUrl)
                         if  let image = UIImage(data: data)                             {
+                            
                             DispatchQueue.main.async(execute: {
+                                self.computeImageRatioConstraint(image,prority: 1000)
+                                self.setNeedsLayout()
                                 self.setBackgroundImage(image, for: .normal)
+                                
                             })
                             
+                        }
+                        else {
+                            self.removeImageRatioConstraint()
                         }
                     }
                     catch let error {

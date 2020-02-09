@@ -7,96 +7,80 @@
 
 import UIKit
 
-open class IPaDesignableTableView: UITableView {
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+open class IPaDesignableTableView: UITableView ,IPaDesignable ,IPaDesignableShadow{
+    open var cornerMask:CAShapeLayer?
+    @IBInspectable open var cornerRadius:CGFloat {
+        get {
+            return self.getCornerRadius()
+        }
+        set {
+            self.setCornerRadius(newValue)
+        }
     }
-    */
-    fileprivate var cornerMask:CAShapeLayer?
-    open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
-        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        self.cornerMask = CAShapeLayer()
-        self.cornerMask?.path = path.cgPath
-        layer.mask = self.cornerMask
+    @IBInspectable open var borderWidth:CGFloat {
+        get {
+            return self.getBorderWidth()
+        }
+        set {
+            self.setBorderWidth(newValue)
+        }
+    }
+    @IBInspectable open var borderColor:UIColor? {
+        get {
+            return self.getBorderColor()
+        }
+        set {
+            self.setBorderColor(newValue)
+        }
+    }
+    @IBInspectable open var shadowCornerRadius: CGFloat = 0 {
+        didSet {
+            self.setShadowCornerRadius(shadowCornerRadius)
+        }
+    }
+    @IBInspectable open var shadowColor:UIColor? {
+        didSet {
+            self.setShadowColor(shadowColor)
+        }
+    }
+    @IBInspectable open var shadowRadius:CGFloat {
+        get {
+            return self.getShadowRadius()
+        }
+        set {
+            self.setShadowRadius(newValue)
+        }
+    }
+    @IBInspectable open var shadowOffset:CGSize {
+        get {
+            return self.getShadowOffset()
+        }
+        set {
+            self.setShadowOffset(newValue)
+        }
+    }
+    @IBInspectable open var shadowOpacity:CGFloat {
+        get {
+            return self.getShadowOpacity()
+        }
+        set {
+            self.setShadowOpacity(newValue)
+        }
+    }
+    open var shadowPath:CGPath? {
+        get {
+            return self.getShadowPath()
+        }
+        set {
+            self.setShadowPath(newValue)
+        }
     }
     override open var bounds: CGRect {
         didSet {
-            if self.cornerRadius > 0 && self.shadowColor != nil {
-                self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.cornerRadius).cgPath
-            }
+            self.updateShadowPath()
         }
     }
-    @IBInspectable open var cornerRadius: CGFloat = 0 {
-        didSet {
-            layer.cornerRadius = cornerRadius
-            self.layer.masksToBounds = true
-        }
-    }
-    @IBInspectable open var borderWidth: CGFloat = 0 {
-        didSet {
-            layer.borderWidth = borderWidth
-        }
-    }
-    @IBInspectable open var borderColor: UIColor? {
-        didSet {
-            layer.borderColor = borderColor?.cgColor
-        }
-    }
-    @IBInspectable open var shadowColor: UIColor? {
-        didSet {
-            if shadowColor != nil {
-                self.layer.shadowColor = shadowColor?.cgColor
-                self.clipsToBounds = false
-                self.layer.masksToBounds = false
-                if self.cornerRadius > 0 {
-                    self.layer.shouldRasterize = true
-                    self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.cornerRadius).cgPath
-                }
-                
-            }
-            else {
-                self.layer.shadowColor = nil
-            }
-            
-        }
-    }
-    @IBInspectable open var shadowRadius: CGFloat {
-        set {
-            self.layer.shadowRadius = newValue
-        }
-        get {
-            return self.layer.shadowRadius
-        }
-    }
-    @IBInspectable open var shadowOffset: CGSize {
-        set {
-            self.layer.shadowOffset = newValue
-        }
-        get {
-            return self.layer.shadowOffset
-        }
-    }
-    @IBInspectable open var shadowOpacity: CGFloat {
-        set {
-            self.layer.shadowOpacity = Float(newValue)
-        }
-        get {
-            return CGFloat(self.layer.shadowOpacity)
-        }
-    }
-    open var shadowPath: CGPath? {
-        set {
-            self.layer.shadowPath = newValue
-        }
-        get {
-            return self.layer.shadowPath
-        }
-    }
-    
+   
     override open var intrinsicContentSize: CGSize {
         
         return self.isScrollEnabled ? super.intrinsicContentSize : self.contentSize
@@ -106,5 +90,8 @@ open class IPaDesignableTableView: UITableView {
         if !self.isScrollEnabled {
             self.invalidateIntrinsicContentSize()
         }
+    }
+    open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+        self.doRoundCorners(corners: corners, radius: radius)
     }
 }
