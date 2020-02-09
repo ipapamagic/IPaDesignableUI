@@ -27,7 +27,15 @@ import IPaDownloadManager
             }
         }
     }
-    open var ratioConstraintPrority:Float = 999
+    var ratioConstraintPrority:Float = 250
+    @IBInspectable open var backgroundImageRatioConstraintPrority:Float {
+        get {
+            return ratioConstraintPrority
+        }
+        set {
+            ratioConstraintPrority = newValue
+        }
+    }
     @objc open var imageURL:String? {
         get {
             return _imageURL

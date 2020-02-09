@@ -88,6 +88,15 @@ open class IPaDesignableImageView: UIImageView ,IPaDesignable,IPaDesignableShado
         // Drawing code
     }
     */
+    var ratioConstraintPrority:Float = 250
+    @IBInspectable open var imageRatioConstraintPrority:Float {
+        get {
+            return ratioConstraintPrority
+        }
+        set {
+            ratioConstraintPrority = newValue
+        }
+    }
     var ratioConstraint:NSLayoutConstraint?
     override open var image: UIImage? {
         didSet {

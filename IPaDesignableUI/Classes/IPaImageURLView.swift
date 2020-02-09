@@ -38,7 +38,6 @@ import IPaDownloadManager
     }
     deinit {
     }
-    open var ratioConstraintPrority:Float = 999
     @objc open func setImageURL(_ imageURL:String?,defaultImage:UIImage?) {
         
         _imageURL = imageURL
