@@ -104,7 +104,7 @@ import IPaDownloadManager
                         if  let image = UIImage(data: data)                             {
                             
                             DispatchQueue.main.async(execute: {
-                                self.computeImageRatioConstraint(image,prority: 250)
+                                self.computeImageRatioConstraint(image)
                                 self.setNeedsLayout()
                                 self.setBackgroundImage(image, for: .normal)
                                 
