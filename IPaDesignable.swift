@@ -29,6 +29,7 @@ protocol IPaDesignableTextInset:UIView {
     var topInset: CGFloat {get set}
 }
 protocol IPaDesignableFitImage:UIView {
+    var ratioConstraintPrority:Float { get set }
     var ratioConstraint:NSLayoutConstraint? {get set}
 }
 
@@ -126,7 +127,7 @@ extension IPaDesignableFitImage {
             self.ratioConstraint = nil
         }
     }
-    func computeImageRatioConstraint(_ image:UIImage,prority:Float = 250) {
+    func computeImageRatioConstraint(_ image:UIImage) {
         
         let ratio = image.size.width / image.size.height
         if let ratioConstraint = self.ratioConstraint {
@@ -137,7 +138,7 @@ extension IPaDesignableFitImage {
             self.ratioConstraint = nil
         }
         let ratioConstraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: self, attribute: .height, multiplier: ratio, constant: 0)
-        ratioConstraint.priority = UILayoutPriority(rawValue: prority)
+        ratioConstraint.priority = UILayoutPriority(rawValue: self.ratioConstraintPrority)
         self.addConstraint(ratioConstraint)
         
         self.ratioConstraint = ratioConstraint

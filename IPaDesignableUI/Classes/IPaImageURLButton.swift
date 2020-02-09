@@ -27,6 +27,7 @@ import IPaDownloadManager
             }
         }
     }
+    open var ratioConstraintPrority:Float = 999
     @objc open var imageURL:String? {
         get {
             return _imageURL
@@ -95,7 +96,7 @@ import IPaDownloadManager
                         if  let image = UIImage(data: data)                             {
                             
                             DispatchQueue.main.async(execute: {
-                                self.computeImageRatioConstraint(image,prority: 1000)
+                                self.computeImageRatioConstraint(image,prority: 250)
                                 self.setNeedsLayout()
                                 self.setBackgroundImage(image, for: .normal)
                                 
