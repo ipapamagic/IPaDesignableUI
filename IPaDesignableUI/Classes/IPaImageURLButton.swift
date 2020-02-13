@@ -13,20 +13,8 @@ import IPaDownloadManager
     private var _imageURL:String?
     private var _backgroundImageURL:String?
     var ratioConstraint:NSLayoutConstraint?
-    var downloadImageOperation:Operation? {
-        willSet {
-            if let operation = downloadImageOperation,!(operation.isCancelled || operation.isFinished) {
-                operation.cancel()
-            }
-        }
-    }
-    var downloadBGImageOperation:Operation? {
-        willSet {
-            if let operation = downloadBGImageOperation,!(operation.isCancelled && operation.isFinished) {
-                operation.cancel()
-            }
-        }
-    }
+    var downloadImageOperation:Operation?
+    var downloadBGImageOperation:Operation? 
     var ratioConstraintPrority:Float = 250
     @IBInspectable open var backgroundImageRatioConstraintPrority:Float {
         get {
