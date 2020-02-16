@@ -94,4 +94,22 @@ open class IPaDesignableTableView: UITableView ,IPaDesignable ,IPaDesignableShad
     open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
         self.doRoundCorners(corners: corners, radius: radius)
     }
+    open func headerViewFitContent() {
+        guard let headerView = self.tableHeaderView else {
+            return
+        }
+        let fittingSize = CGSize(width: self.bounds.width , height: 0)
+        let size = headerView.systemLayoutSizeFitting(fittingSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
+        headerView.frame = CGRect(origin: .zero, size: size)
+        self.tableHeaderView = headerView
+    }
+    open func footerViewFitContent() {
+        guard let footerView = self.tableFooterView else {
+            return
+        }
+        let fittingSize = CGSize(width: self.bounds.width , height: 0)
+        let size = footerView.systemLayoutSizeFitting(fittingSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
+        footerView.frame = CGRect(origin: .zero, size: size)
+        self.tableHeaderView = footerView
+    }
 }
