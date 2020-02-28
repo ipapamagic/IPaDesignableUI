@@ -82,9 +82,6 @@ open class IPaDesignableLabel: UILabel,IPaDesignable ,IPaDesignableTextInset{
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    open override func drawText(in rect: CGRect) {
-        super.drawText(in:rect.inset(by: self.textInsets))
-    }
     open override var intrinsicContentSize: CGSize
     {
         get {
@@ -94,7 +91,16 @@ open class IPaDesignableLabel: UILabel,IPaDesignable ,IPaDesignableTextInset{
             return size
         }
     }
+    open override func drawText(in rect: CGRect) {
+        super.drawText(in:rect.inset(by: self.textInsets))
+    }
     open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
         self.doRoundCorners(corners: corners, radius: radius)
+    }
+    open func setHtmlContent(_ content:String,encoding:String.Encoding) {
+        if let data = content.data(using: encoding) {
+            self.attributedText = try? NSAttributedString(data: data, options: [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html], documentAttributes: nil)
+            
+        }
     }
 }

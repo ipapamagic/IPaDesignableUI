@@ -112,4 +112,18 @@ open class IPaDesignableTableView: UITableView ,IPaDesignable ,IPaDesignableShad
         footerView.frame = CGRect(origin: .zero, size: size)
         self.tableHeaderView = footerView
     }
+    open func getCellIndexPath(contain view:UIView) -> IndexPath?
+    {
+        var cell:UIView? = view
+        repeat {
+            cell = cell?.superview
+            if cell == nil {
+                return nil
+            }
+            else if let cell = cell as? UITableViewCell,let indexPath = self.indexPath(for: cell) {
+                return indexPath
+            }
+            
+        }while true
+    }
 }
