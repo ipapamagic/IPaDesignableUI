@@ -7,7 +7,7 @@
 
 import UIKit
 
-class IPaFitContentTableView: IPaDesignableTableView {
+open class IPaFitContentTableView: IPaDesignableTableView {
     fileprivate var scrollViewObserver:Any?
     fileprivate var contentHeight:CGFloat = 0 {
         didSet {

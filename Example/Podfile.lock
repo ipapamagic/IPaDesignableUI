@@ -1,7 +1,7 @@
 PODS:
-  - IPaDesignableUI (3.6):
-    - IPaDownloadManager (~> 1.0)
-  - IPaDownloadManager (1.0):
+  - IPaDesignableUI (3.10):
+    - IPaDownloadManager (~> 1.2)
+  - IPaDownloadManager (1.2):
     - IPaSecurity (~> 3.1)
   - IPaLog (2.3)
   - IPaSecurity (3.1):
@@ -21,11 +21,11 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  IPaDesignableUI: 161d7c2059621cb871ee210933a0d21101d4de08
-  IPaDownloadManager: da86956abb8a6f31ca35b2b9eb8148f4363b47f0
+  IPaDesignableUI: d73da9044767e1f2789b74a52c627232e7b85406
+  IPaDownloadManager: b19ce142b14a818d0b64877d90db5a87fda2c992
   IPaLog: 94e55e52fa0a4c3954ae8bf19bb56291d4d7ccb8
   IPaSecurity: 0abd374149fd917d01c6845854a924b5bc79de17
 
 PODFILE CHECKSUM: e84eecb1fb8094f1b74ca1fb17f49843ab5dc222
 
-COCOAPODS: 1.7.1
+COCOAPODS: 1.9.1
