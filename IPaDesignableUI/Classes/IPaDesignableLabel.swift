@@ -40,6 +40,7 @@ open class IPaDesignableLabel: UILabel,IPaDesignable ,IPaDesignableTextInset{
         }
         set {
             textInsets.bottom = newValue
+            self.invalidateIntrinsicContentSize()
         }
     }
     @IBInspectable public var leftInset: CGFloat {
@@ -48,6 +49,7 @@ open class IPaDesignableLabel: UILabel,IPaDesignable ,IPaDesignableTextInset{
         }
         set {
             textInsets.left = newValue
+            self.invalidateIntrinsicContentSize()
         }
     }
     @IBInspectable public var rightInset: CGFloat {
@@ -56,6 +58,7 @@ open class IPaDesignableLabel: UILabel,IPaDesignable ,IPaDesignableTextInset{
         }
         set {
             textInsets.right = newValue
+            self.invalidateIntrinsicContentSize()
         }
     }
     @IBInspectable public var topInset: CGFloat {
@@ -64,10 +67,15 @@ open class IPaDesignableLabel: UILabel,IPaDesignable ,IPaDesignableTextInset{
         }
         set {
             textInsets.top = newValue
+            self.invalidateIntrinsicContentSize()
         }
     }
     
-    @IBInspectable public var textInsets: UIEdgeInsets = UIEdgeInsets.zero
+    @IBInspectable public var textInsets: UIEdgeInsets = UIEdgeInsets.zero {
+        didSet {
+            self.invalidateIntrinsicContentSize()
+        }
+    }
     /*
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -93,6 +101,12 @@ open class IPaDesignableLabel: UILabel,IPaDesignable ,IPaDesignableTextInset{
     }
     open override func drawText(in rect: CGRect) {
         super.drawText(in:rect.inset(by: self.textInsets))
+    }
+    
+    open override func textRect(forBounds bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
+        
+        let textRect = bounds.inset(by: self.textInsets)
+        return super.textRect(forBounds: textRect, limitedToNumberOfLines: numberOfLines)
     }
     open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
         self.doRoundCorners(corners: corners, radius: radius)
