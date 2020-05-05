@@ -111,10 +111,24 @@ open class IPaDesignableLabel: UILabel,IPaDesignable ,IPaDesignableTextInset{
     open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
         self.doRoundCorners(corners: corners, radius: radius)
     }
-    open func setHtmlContent(_ content:String,encoding:String.Encoding = .utf8) {
+    open func setHtmlContent(_ content:String,encoding:String.Encoding = .utf8,replacePtToPx:Bool = true) {
+        let content = replacePtToPx ? IPaDesignableLabel.replaceCSSPtToPx(with: content) : content
         if let data = content.data(using: encoding) {
             self.attributedText = try? NSAttributedString(data: data, options: [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html], documentAttributes: nil)
             
         }
+    }
+    static func replaceCSSPtToPx(with string:String) -> String {
+        guard let regex = try? NSRegularExpression(pattern: "\\d+pt", options:  NSRegularExpression.Options()) else {
+            return string
+        }
+        let matches = regex.matches(in: string, options: .init(), range: NSRange(location: 0, length: string.utf16.count))
+        var newString = string
+        for match in matches {
+            let loc = match.range.location + match.range.length - 2
+            let targetRange = NSRange(location: loc, length: 2)
+            newString = newString.replacingOccurrences(of: "pt", with: "px", options: NSString.CompareOptions(), range: Range(targetRange, in: string))
+        }
+        return newString
     }
 }
