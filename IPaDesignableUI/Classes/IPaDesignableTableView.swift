@@ -110,7 +110,7 @@ open class IPaDesignableTableView: UITableView ,IPaDesignable ,IPaDesignableShad
         let fittingSize = CGSize(width: self.bounds.width , height: 0)
         let size = footerView.systemLayoutSizeFitting(fittingSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
         footerView.frame = CGRect(origin: .zero, size: size)
-        self.tableHeaderView = footerView
+        self.tableFooterView = footerView
     }
     open func getCellIndexPath(contain view:UIView) -> IndexPath?
     {
