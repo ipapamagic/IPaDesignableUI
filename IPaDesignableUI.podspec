@@ -39,4 +39,5 @@ TODO: Add long description of the pod here.
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
   s.dependency 'IPaDownloadManager', '~> 1.3'
+  s.dependency 'IPaImageTool', '~> 2.3'
 end
