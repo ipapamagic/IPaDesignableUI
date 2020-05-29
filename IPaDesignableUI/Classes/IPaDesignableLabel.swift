@@ -129,22 +129,10 @@ open class IPaDesignableLabel: UILabel,IPaDesignable ,IPaDesignableTextInset{
                     }
                 }
             })
-            
-            
-            
-            
-            
+
             self.attributedText = text
             
         }
     }
-    static func replaceCSSPtToPx(with string:String) -> String {
-        guard let regex = try? NSRegularExpression(pattern: "(\\d+)pt", options:  NSRegularExpression.Options()) else {
-            return string
-        }
-        let newString = regex.stringByReplacingMatches(in: string, options: [], range: NSRange(location: 0, length: string.count), withTemplate: "$1px")
-        
-        
-        return newString
-    }
+    
 }

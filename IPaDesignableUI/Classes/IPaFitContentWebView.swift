@@ -47,8 +47,7 @@ open class IPaFitContentWebView: IPaDesignableWebView {
         
         let source = "window.onload=function () {window.webkit.messageHandlers.sizeNotification.postMessage({justLoaded:true,height: document.body.scrollHeight});};"
         let source2 = "document.body.addEventListener( 'resize', incrementCounter); function incrementCounter() {window.webkit.messageHandlers.sizeNotification.postMessage({height: document.body.scrollHeight});};"
-        let source3 = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width initial-scale=1, maximum-scale=1'); document.getElementsByTagName('head')[0].appendChild(meta);"
-        
+        let source3 = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width initial-scale=1'); document.getElementsByTagName('head')[0].appendChild(meta);"
         
         
         //UserScript object
@@ -115,6 +114,13 @@ open class IPaFitContentWebView: IPaDesignableWebView {
 //            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
 //        }
 //    }
+    public func loadHTMLString(_ string: String, baseURL: URL?,replacePtToPx:Bool) -> WKNavigation? {
+        var content = string
+        if replacePtToPx {
+            content = IPaFitContentWebView.replaceCSSPtToPx(with: string)
+        }
+        return super.loadHTMLString(content, baseURL: baseURL)
+    }
 }
 extension IPaFitContentWebView:WKScriptMessageHandler
 {

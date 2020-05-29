@@ -34,7 +34,15 @@ protocol IPaDesignableFitImage:UIView {
 }
 
 extension IPaDesignable where Self:UIView {
-    
+    static func replaceCSSPtToPx(with string:String) -> String {
+        guard let regex = try? NSRegularExpression(pattern: "(\\d+)pt", options:  NSRegularExpression.Options()) else {
+            return string
+        }
+        let newString = regex.stringByReplacingMatches(in: string, options: [], range: NSRange(location: 0, length: string.count), withTemplate: "$1px")
+        
+        
+        return newString
+    }
     func doRoundCorners(corners: UIRectCorner, radius: CGFloat) {
         let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         self.cornerMask = CAShapeLayer()
