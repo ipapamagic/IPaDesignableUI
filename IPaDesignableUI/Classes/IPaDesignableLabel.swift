@@ -113,24 +113,27 @@ open class IPaDesignableLabel: UILabel,IPaDesignable ,IPaDesignableTextInset{
         self.doRoundCorners(corners: corners, radius: radius)
     }
     open func setHtmlContent(_ content:String,encoding:String.Encoding = .utf8,replacePtToPx:Bool = true) {
-        let content = replacePtToPx ? IPaDesignableLabel.replaceCSSPtToPx(with: content) : content
+        var content = replacePtToPx ? IPaDesignableLabel.replaceCSSPtToPx(with: content) : content
+        content += "<style>img { max-width:\(self.bounds.size.width - self.textInsets.left - self.textInsets.right)px; height: auto !important; } </style>"
+        
+        
         if let data = content.data(using: encoding) ,let attributedText = try? NSAttributedString(data: data, options: [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html], documentAttributes: nil) {
             //fit image to content .... css not work ,need to do it yourself
-            let maxWidth = self.bounds.width
-            let text = NSMutableAttributedString(attributedString: attributedText)
-            text.enumerateAttribute(NSAttributedString.Key.attachment, in: NSMakeRange(0, text.length), options: .init(rawValue: 0), using: { (value, range, stop) in
-                if let attachement = value as? NSTextAttachment {
-                    let image = attachement.image(forBounds: attachement.bounds, textContainer: NSTextContainer(), characterIndex: range.location)!
-                    if image.size.width > maxWidth {
-                        let newImage = image.image(fitWidth: maxWidth)
-                        let newAttribut = NSTextAttachment()
-                        newAttribut.image = newImage
-                        text.addAttribute(NSAttributedString.Key.attachment, value: newAttribut, range: range)
-                    }
-                }
-            })
+//            let maxWidth = self.bounds.width
+//            let text = NSMutableAttributedString(attributedString: attributedText)
+//            text.enumerateAttribute(NSAttributedString.Key.attachment, in: NSMakeRange(0, text.length), options: .init(rawValue: 0), using: { (value, range, stop) in
+//                if let attachement = value as? NSTextAttachment {
+//                    let image = attachement.image(forBounds: attachement.bounds, textContainer: NSTextContainer(), characterIndex: range.location)!
+//                    if image.size.width > maxWidth {
+//                        let newImage = image.image(fitWidth: maxWidth)
+//                        let newAttribut = NSTextAttachment()
+//                        newAttribut.image = newImage
+//                        text.addAttribute(NSAttributedString.Key.attachment, value: newAttribut, range: range)
+//                    }
+//                }
+//            })
 
-            self.attributedText = text
+            self.attributedText = attributedText
             
         }
     }
