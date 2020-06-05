@@ -209,4 +209,14 @@ open class IPaDesignableTextView: UITextView,IPaDesignable,IPaDesignableShadow,I
     open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
         self.doRoundCorners(corners: corners, radius: radius)
     }
+    open func setHtmlContent(_ content:String,encoding:String.Encoding = .utf8,replacePtToPx:Bool = true) {
+        var content = replacePtToPx ? IPaDesignableTextView.replaceCSSPtToPx(with: content) : content
+            content += "<style>img { max-width:\(self.bounds.size.width - self.leftInset - self.rightInset)px; height: auto !important; } </style>"
+            
+            
+            if let data = content.data(using: encoding) ,let attributedText = try? NSAttributedString(data: data, options: [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html], documentAttributes: nil) {
+                self.attributedText = attributedText
+                
+            }
+        }
 }
