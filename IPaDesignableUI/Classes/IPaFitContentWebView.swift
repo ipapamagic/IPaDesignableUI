@@ -35,6 +35,11 @@ open class IPaWebViewOpenUrlHandler:NSObject,WKNavigationDelegate {
         return .cancel
     }
 }
+extension IPaDesignableScrollView:IPaFitContentWebViewContainer {
+    public func onWebViewContentSizeUpdate(_ webView: IPaFitContentWebView) {
+        self.layoutIfNeeded()
+    }
+}
 extension IPaDesignableTableView:IPaFitContentWebViewContainer {
     public func onWebViewContentSizeUpdate(_ webView: IPaFitContentWebView) {
         self.headerViewFitContent()
