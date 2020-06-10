@@ -7,6 +7,41 @@
 
 import UIKit
 import WebKit
+public protocol IPaFitContentWebViewContainer {
+    func onWebViewContentSizeUpdate(_ webView:IPaFitContentWebView)
+}
+// IPaWebViewOpenUrlHandler is for WKNavigationDelegate,that will use open url to open link
+open class IPaWebViewOpenUrlHandler:NSObject,WKNavigationDelegate {
+    public override init() {
+        super.init()
+    }
+    @available(iOS 13.0, *)
+    public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, preferences: WKWebpagePreferences, decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void) {
+        
+        decisionHandler(self.handleWebViewAction(navigationAction), preferences)
+    }
+    public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        decisionHandler(self.handleWebViewAction(navigationAction))
+    }
+    private func handleWebViewAction(_ action:WKNavigationAction) -> WKNavigationActionPolicy {
+        guard  action.navigationType == .linkActivated else {
+            return .allow
+        }
+        let request = action.request
+        guard let url = request.url else {
+            return .allow
+        }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        return .cancel
+    }
+}
+extension IPaDesignableTableView:IPaFitContentWebViewContainer {
+    public func onWebViewContentSizeUpdate(_ webView: IPaFitContentWebView) {
+        self.headerViewFitContent()
+        self.footerViewFitContent()
+    }
+    
+}
 //private var observerContext = 0
 open class IPaFitContentWebView: IPaDesignableWebView {
     fileprivate var contentHeight:CGFloat = 0 {
@@ -19,6 +54,7 @@ open class IPaFitContentWebView: IPaDesignableWebView {
             self.setNeedsLayout()
         }
     }
+    public var fitContentWebViewContainer:IPaFitContentWebViewContainer?
     lazy var heightConstraint:NSLayoutConstraint = {
         let constraint = self.heightAnchor.constraint(equalToConstant: self.contentHeight)
         constraint.priority = UILayoutPriority(rawValue: 999)
@@ -43,7 +79,10 @@ open class IPaFitContentWebView: IPaDesignableWebView {
         self.initFitContent()
     }
     fileprivate func initFitContent() {
-        
+        self.scrollView.isScrollEnabled = false
+        self.scrollView.bounces = false
+        self.scrollView.alwaysBounceHorizontal = false
+        self.scrollView.alwaysBounceVertical = false
         
         let source = "window.onload=function () {window.webkit.messageHandlers.sizeNotification.postMessage({justLoaded:true,height: document.body.scrollHeight});};"
         let source2 = "document.body.addEventListener( 'resize', incrementCounter); function incrementCounter() {window.webkit.messageHandlers.sizeNotification.postMessage({height: document.body.scrollHeight});};"
@@ -131,6 +170,6 @@ extension IPaFitContentWebView:WKScriptMessageHandler
                 
         }
         self.contentHeight = height
-        
+        self.fitContentWebViewContainer?.onWebViewContentSizeUpdate(self)
     }
 }
