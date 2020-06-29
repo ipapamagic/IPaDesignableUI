@@ -74,38 +74,29 @@ open class IPaFitContentWebView: IPaDesignableWebView {
         // Drawing code
     }
     */
-    override init(frame: CGRect, configuration: WKWebViewConfiguration) {
-        super.init(frame: frame, configuration: configuration)
-        self.initFitContent()
-    }
+    override func initialJSScript() {
+        super.initialJSScript()
     
-    required public init?(coder: NSCoder) {
-        super.init(coder: coder)
-        self.initFitContent()
-    }
-    fileprivate func initFitContent() {
         self.scrollView.isScrollEnabled = false
         self.scrollView.bounces = false
         self.scrollView.alwaysBounceHorizontal = false
         self.scrollView.alwaysBounceVertical = false
         
-        let source = "window.onload=function () {window.webkit.messageHandlers.sizeNotification.postMessage({justLoaded:true,height: document.body.scrollHeight});};"
-        let source2 = "document.body.addEventListener( 'resize', incrementCounter); function incrementCounter() {window.webkit.messageHandlers.sizeNotification.postMessage({height: document.body.scrollHeight});};"
-        let source3 = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width initial-scale=1'); document.getElementsByTagName('head')[0].appendChild(meta);"
+        
+        let resizeSource = "document.body.addEventListener( 'resize', incrementCounter); function incrementCounter() {window.webkit.messageHandlers.sizeNotification.postMessage({height: document.body.scrollHeight});};"
+        let metaSource = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width initial-scale=1'); document.getElementsByTagName('head')[0].appendChild(meta);"
         
         
         //UserScript object
-        let script = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+
+        let resizeScript = WKUserScript(source: resizeSource, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
         
-        let script2 = WKUserScript(source: source2, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-        
-        let script3 = WKUserScript(source: source3, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+        let metaScript = WKUserScript(source: metaSource, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
         //Content Controller object
         let controller = self.configuration.userContentController
         
-        controller.addUserScript(script)
-        controller.addUserScript(script2)
-        controller.addUserScript(script3)
+        controller.addUserScript(resizeScript)
+        controller.addUserScript(metaScript)
         //Add message handler reference
         controller.add(self, name: "sizeNotification")
         
@@ -128,36 +119,7 @@ open class IPaFitContentWebView: IPaDesignableWebView {
         return CGSize(width:self.scrollView.contentSize.width,height:contentHeight)
         
     }
-//    override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-//        if context == &observerContext {
-//            if let _ = change?[.newKey] as? Double {
-//
-//                guard self.estimatedProgress > 0.5 else { return }
-//                let javascriptString = "" +
-//                    "var body = document.body;" +
-//                    "var html = document.documentElement;" +
-//                    "Math.max(" +
-//                    "   body.scrollHeight," +
-//                    "   body.offsetHeight," +
-//                    "   html.clientHeight," +
-//                    "   html.offsetHeight" +
-//                ");"
-//
-//                self.evaluateJavaScript(javascriptString) { (result, error) in
-//                    let contentHeight = result as? CGFloat ?? 0.0
-//
-//                    if contentHeight != self.contentHeight {
-//                        self.contentHeight = contentHeight
-//
-//                    }
-//                }
-//
-//            }
-//
-//        } else {
-//            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-//        }
-//    }
+
     public func loadHTMLString(_ string: String, baseURL: URL?,replacePtToPx:Bool) -> WKNavigation? {
         var content = string
         if replacePtToPx {
@@ -165,11 +127,14 @@ open class IPaFitContentWebView: IPaDesignableWebView {
         }
         return super.loadHTMLString(content, baseURL: baseURL)
     }
-}
-extension IPaFitContentWebView:WKScriptMessageHandler
-{
-    public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        guard let responseDict = message.body as? [String:Any],
+    override open func onWindowLoaded() {
+        self.evaluateJavaScript("window.webkit.messageHandlers.sizeNotification.postMessage({justLoaded:true,height: document.body.scrollHeight});") { (result, error) in
+            
+        }
+    }
+    override public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        super.userContentController(userContentController, didReceive: message)
+        guard message.name == "sizeNotification", let responseDict = message.body as? [String:Any],
             let height = responseDict["height"] as? CGFloat else {
                 return
                 
@@ -178,3 +143,4 @@ extension IPaFitContentWebView:WKScriptMessageHandler
         self.fitContentWebViewContainer?.onWebViewContentSizeUpdate(self)
     }
 }
+
