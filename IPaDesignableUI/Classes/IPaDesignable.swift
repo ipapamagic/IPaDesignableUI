@@ -15,12 +15,11 @@ protocol IPaDesignable:UIView {
     
 }
 protocol IPaDesignableShadow:UIView {
-    var shadowCornerRadius:CGFloat {get set}
     var shadowColor:UIColor? {get set}
-    var shadowRadius:CGFloat {get set}
+    var shadowBlur:CGFloat {get set}
+    var shadowSpread:CGFloat {get set}
     var shadowOffset:CGSize {get set}
     var shadowOpacity:CGFloat {get set}
-    var shadowPath:CGPath? {get set}
 }
 protocol IPaDesignableTextInset:UIView {
     var bottomInset: CGFloat {get set}
@@ -78,16 +77,13 @@ extension IPaDesignable where Self:UIView {
 }
 extension IPaDesignableShadow where Self:IPaDesignable {
     func setShadowColor(_ shadowColor:UIColor?) {
-        self.updateShadowCorner()
+        self.layer.shadowColor = shadowColor?.cgColor
     }
-    func setShadowCornerRadius(_ shadowCornerRadius:CGFloat) {
-        self.updateShadowCorner()
-    }
-    func setShadowRadius(_ shadowRadius: CGFloat) {
-        self.layer.shadowRadius = shadowRadius
-    }
-    func getShadowRadius() -> CGFloat {
-        return self.layer.shadowRadius
+    func getShadowColor() -> UIColor? {
+        if let color = self.layer.shadowColor {
+            return UIColor(cgColor: color)
+        }
+        return nil
     }
     func setShadowOffset(_ shadowOffset: CGSize) {
         self.layer.shadowOffset = shadowOffset
@@ -101,33 +97,28 @@ extension IPaDesignableShadow where Self:IPaDesignable {
     func getShadowOpacity() -> CGFloat {
         return CGFloat(self.layer.shadowOpacity)
     }
-    func setShadowPath(_ shadowPath: CGPath?) {
-        self.layer.shadowPath = shadowPath
+    
+    func setShadowBlur(_ blur:CGFloat) {
+        self.layer.shadowRadius = shadowBlur * 0.5 
+        
     }
-    func getShadowPath() -> CGPath? {
-        return self.layer.shadowPath
+    func getShadowBlur() -> CGFloat {
+        return self.layer.shadowRadius * 2
     }
     func updateShadowPath() {
-        if self.cornerRadius > 0 && self.shadowColor != nil {
-            self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.cornerRadius).cgPath
-        }
-    }
-    func updateShadowCorner() {
-        if shadowColor != nil {
-            self.layer.shadowColor = shadowColor?.cgColor
-            self.clipsToBounds = false
-            self.layer.masksToBounds = false
-            
-            if self.shadowCornerRadius > 0 {
-                self.layer.shouldRasterize = true
-                self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.shadowCornerRadius).cgPath
-            }
-            self.layer.contentsScale = UIScreen.main.scale
+        if shadowSpread == 0 {
+            self.layer.shadowPath = nil
         }
         else {
-            self.layer.shadowColor = nil
+            let dx = -shadowSpread
+            let rect = bounds.insetBy(dx: dx, dy: dx)
+            
+            self.layer.shadowPath = UIBezierPath(rect: rect).cgPath
+            
+            self.layer.contentsScale = UIScreen.main.scale
         }
     }
+    
 }
 
 extension IPaDesignableFitImage {

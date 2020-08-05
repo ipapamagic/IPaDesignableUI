@@ -33,22 +33,9 @@ open class IPaDesignableTableView: UITableView ,IPaDesignable ,IPaDesignableShad
             self.setBorderColor(newValue)
         }
     }
-    @IBInspectable open var shadowCornerRadius: CGFloat = 0 {
-        didSet {
-            self.setShadowCornerRadius(shadowCornerRadius)
-        }
-    }
     @IBInspectable open var shadowColor:UIColor? {
         didSet {
             self.setShadowColor(shadowColor)
-        }
-    }
-    @IBInspectable open var shadowRadius:CGFloat {
-        get {
-            return self.getShadowRadius()
-        }
-        set {
-            self.setShadowRadius(newValue)
         }
     }
     @IBInspectable open var shadowOffset:CGSize {
@@ -67,12 +54,17 @@ open class IPaDesignableTableView: UITableView ,IPaDesignable ,IPaDesignableShad
             self.setShadowOpacity(newValue)
         }
     }
-    open var shadowPath:CGPath? {
+    @IBInspectable open var shadowBlur: CGFloat {
         get {
-            return self.getShadowPath()
+            return self.getShadowBlur()
         }
         set {
-            self.setShadowPath(newValue)
+            self.setShadowBlur(newValue)
+        }
+    }
+    @IBInspectable open var shadowSpread: CGFloat = 0{
+        didSet {
+            self.updateShadowPath()
         }
     }
     override open var bounds: CGRect {
