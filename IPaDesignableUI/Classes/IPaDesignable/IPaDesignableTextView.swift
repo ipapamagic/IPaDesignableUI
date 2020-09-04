@@ -8,7 +8,8 @@
 
 import UIKit
 //@IBDesignable
-open class IPaDesignableTextView: UITextView,IPaDesignable,IPaDesignableShadow,IPaDesignableTextInset {
+open class IPaDesignableTextView: UITextView,IPaDesignable,IPaDesignableShadow,IPaDesignableTextInset,IPaDesignableCanBeInnerScrollView {
+    @IBInspectable open var simultaneouslyOtherGesture: Bool = false
     open var cornerMask:CAShapeLayer?
     @IBInspectable open var cornerRadius:CGFloat {
         get {
@@ -210,4 +211,10 @@ open class IPaDesignableTextView: UITextView,IPaDesignable,IPaDesignableShadow,I
                 
             }
         }
+}
+extension IPaDesignableTextView:UIGestureRecognizerDelegate
+{
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return simultaneouslyOtherGesture
+    }
 }

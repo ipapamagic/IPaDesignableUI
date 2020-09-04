@@ -10,6 +10,7 @@ import WebKit
 import IPaLog
 open class IPaDesignableWebView: WKWebView ,IPaDesignable,IPaDesignableShadow {
     open var cornerMask:CAShapeLayer?
+    @IBInspectable open var simultaneouslyOtherGesture: Bool = false
     @IBInspectable open var cornerRadius:CGFloat {
         get {
             return self.getCornerRadius()

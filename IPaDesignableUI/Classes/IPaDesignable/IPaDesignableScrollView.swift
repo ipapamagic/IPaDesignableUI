@@ -1,14 +1,15 @@
 //
-//  IPaDesignableImageView.swift
+//  IPaDesignableScrollView.swift
 //  IPaDesignableUI
 //
-//  Created by IPa Chen on 2017/12/28.
+//  Created by IPa Chen on 2020/6/10.
 //
 
 import UIKit
-//@IBDesignable
-open class IPaDesignableImageView: UIImageView ,IPaDesignable,IPaDesignableShadow,IPaDesignableFitImage {
-    open var cornerMask:CAShapeLayer?
+
+open class IPaDesignableScrollView: UIScrollView,IPaDesignable ,IPaDesignableShadow ,IPaDesignableCanBeInnerScrollView {
+    @IBInspectable open var simultaneouslyOtherGesture: Bool = false
+    public var cornerMask: CAShapeLayer?
     @IBInspectable open var cornerRadius:CGFloat {
         get {
             return self.getCornerRadius()
@@ -33,7 +34,7 @@ open class IPaDesignableImageView: UIImageView ,IPaDesignable,IPaDesignableShado
             self.setBorderColor(newValue)
         }
     }
-    open var shadowColor:UIColor? {
+    @IBInspectable open var shadowColor:UIColor? {
         didSet {
             self.setShadowColor(shadowColor)
         }
@@ -72,43 +73,22 @@ open class IPaDesignableImageView: UIImageView ,IPaDesignable,IPaDesignableShado
             self.updateShadowPath()
         }
     }
-    
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-    var ratioConstraintPrority:Float = 250
-    @IBInspectable open var imageRatioConstraintPrority:Float {
-        get {
-            return ratioConstraintPrority
-        }
-        set {
-            ratioConstraintPrority = newValue
-        }
-    }
-    var ratioConstraint:NSLayoutConstraint?
-    override open var image: UIImage? {
-        didSet {
-            if let image = image {
-                self.computeImageRatioConstraint(image)
-                
-            }
-            else {
-                self.removeImageRatioConstraint()
-            }
-            
-        }
-    }
-    public override init(frame: CGRect) {
+
+  
+    override init(frame: CGRect) {
         super.init(frame: frame)
     }
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    
+    required public init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
-    open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
-        self.doRoundCorners(corners: corners, radius: radius)
+    open func scrollAnimation(_ startOffset:CGPoint,startVelocity:CGPoint) {
+        
+    }
+}
+extension IPaDesignableScrollView:UIGestureRecognizerDelegate
+{
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return simultaneouslyOtherGesture
     }
 }

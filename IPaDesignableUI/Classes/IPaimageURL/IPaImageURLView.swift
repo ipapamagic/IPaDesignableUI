@@ -11,32 +11,55 @@ import UIKit
 import IPaLog
 import IPaDownloadManager
 @objc open class IPaImageURLView : IPaDesignableImageView {
-    fileprivate var _imageURL:String?
-    fileprivate var _highlightedImageURL:String?
+    fileprivate var _imageUrl:URL?
+    fileprivate var _highlightedImageUrl:URL?
     var downloadOperation:Operation?
-    @objc open var imageURL:String? {
+    @objc open var imageUrl:URL? {
         get {
-            return _imageURL
+            return _imageUrl
         }
         set {
-            setImageURL(newValue, defaultImage: nil)
+            setImageUrl(newValue, defaultImage: nil)
         }
     }
-    @objc open var highlightedImageURL:String? {
+    @objc open var highlightedImageUrl:URL? {
         get {
-            return _highlightedImageURL
+            return _highlightedImageUrl
         }
         set {
-            setHighlightedImageURL(newValue, defaultImage: nil)
+            setHighlightedImageUrl(newValue, defaultImage: nil)
         }
     }
-    deinit {
+    @objc open var imageURLString:String? {
+        get {
+            return _imageUrl?.absoluteString
+        }
+        set {
+            if let urlString = newValue?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),let url = URL(string: urlString) {
+                setImageUrl(url, defaultImage: nil)
+            }
+            else {
+                setImageUrl(nil, defaultImage: nil)
+            }
+        }
     }
+    @objc open var highlightedImageURLString:String? {
+        get {
+            return _highlightedImageUrl?.absoluteString
+        }
+        set {
+            if let urlString = newValue?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),let url = URL(string: urlString) {
+                setHighlightedImageUrl(url, defaultImage: nil)
+            }
+        }
+    }
+    @available(*, unavailable, renamed: "setImageUrl")
     @objc open func setImageURL(_ imageURL:String?,defaultImage:UIImage?) {
-        
-        _imageURL = imageURL
+    }
+    @objc open func setImageUrl(_ imageUrl:URL?,defaultImage:UIImage?) {
+        _imageUrl = imageUrl
         self.image = defaultImage
-        if let imageURLString = imageURL , let imageUrl = URL(string: imageURLString) {
+        if let imageUrl = imageUrl {
             if let data = IPaImageURLCache.shared.cacheFile(with: imageUrl), let image = UIImage(data: data) {
                 DispatchQueue.main.async(execute: {
                     self.image = image
@@ -67,9 +90,12 @@ import IPaDownloadManager
             })
         }
     }
+    @available(*, unavailable, renamed: "setHighlightedImageUrl")
     @objc open func setHighlightedImageURL(_ imageURL:String?,defaultImage:UIImage?) {
+    }
+    @objc open func setHighlightedImageUrl(_ imageUrl:URL?,defaultImage:UIImage?) {
         self.highlightedImage = defaultImage
-        if let imageURLString = imageURL , let imageUrl = URL(string: imageURLString) {
+        if let imageUrl = imageUrl {
             if let data = IPaImageURLCache.shared.cacheFile(with: imageUrl), let image = UIImage(data: data) {
                 DispatchQueue.main.async(execute: {
                     self.highlightedImage = image

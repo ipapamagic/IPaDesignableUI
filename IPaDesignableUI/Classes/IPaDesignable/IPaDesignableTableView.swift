@@ -7,7 +7,8 @@
 
 import UIKit
 
-open class IPaDesignableTableView: UITableView ,IPaDesignable ,IPaDesignableShadow{
+open class IPaDesignableTableView: UITableView ,IPaDesignable ,IPaDesignableShadow,IPaDesignableCanBeInnerScrollView {
+    @IBInspectable open var simultaneouslyOtherGesture: Bool = false
     open var cornerMask:CAShapeLayer?
     @IBInspectable open var cornerRadius:CGFloat {
         get {
@@ -117,5 +118,11 @@ open class IPaDesignableTableView: UITableView ,IPaDesignable ,IPaDesignableShad
             }
             
         }while true
+    }
+}
+extension IPaDesignableTableView:UIGestureRecognizerDelegate
+{
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return simultaneouslyOtherGesture
     }
 }

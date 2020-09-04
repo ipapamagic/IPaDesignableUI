@@ -31,7 +31,9 @@ protocol IPaDesignableFitImage:UIView {
     var ratioConstraintPrority:Float { get set }
     var ratioConstraint:NSLayoutConstraint? {get set}
 }
-
+@objc public protocol IPaDesignableCanBeInnerScrollView:UIGestureRecognizerDelegate where Self:UIScrollView {
+    var simultaneouslyOtherGesture:Bool { get set}
+}
 extension IPaDesignable where Self:UIView {
     
     static func replaceCSSPtToPx(with string:String) -> String {
@@ -53,7 +55,7 @@ extension IPaDesignable where Self:UIView {
     
     func setCornerRadius(_ cornerRadius:CGFloat) {
         self.layer.cornerRadius = cornerRadius
-        self.layer.masksToBounds = true
+//        self.layer.masksToBounds = true
     }
     func getCornerRadius() -> CGFloat {
         return self.layer.cornerRadius

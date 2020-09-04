@@ -1,20 +1,21 @@
 //
-//  IPaDesignableScrollView.swift
+//  IPaDesignableImageView.swift
 //  IPaDesignableUI
 //
-//  Created by IPa Chen on 2020/6/10.
+//  Created by IPa Chen on 2017/12/28.
 //
 
 import UIKit
-
-open class IPaDesignableScrollView: UIScrollView,IPaDesignable ,IPaDesignableShadow {
-    public var cornerMask: CAShapeLayer?
+//@IBDesignable
+open class IPaDesignableImageView: UIImageView ,IPaDesignable,IPaDesignableShadow,IPaDesignableFitImage {
+    open var cornerMask:CAShapeLayer?
     @IBInspectable open var cornerRadius:CGFloat {
         get {
             return self.getCornerRadius()
         }
         set {
             self.setCornerRadius(newValue)
+            self.layer.masksToBounds = true
         }
     }
     @IBInspectable open var borderWidth:CGFloat {
@@ -33,7 +34,7 @@ open class IPaDesignableScrollView: UIScrollView,IPaDesignable ,IPaDesignableSha
             self.setBorderColor(newValue)
         }
     }
-    @IBInspectable open var shadowColor:UIColor? {
+    open var shadowColor:UIColor? {
         didSet {
             self.setShadowColor(shadowColor)
         }
@@ -72,14 +73,43 @@ open class IPaDesignableScrollView: UIScrollView,IPaDesignable ,IPaDesignableSha
             self.updateShadowPath()
         }
     }
-
-  
-    override init(frame: CGRect) {
+    
+    /*
+    // Only override draw() if you perform custom drawing.
+    // An empty implementation adversely affects performance during animation.
+    override func draw(_ rect: CGRect) {
+        // Drawing code
+    }
+    */
+    var ratioConstraintPrority:Float = 250
+    @IBInspectable open var imageRatioConstraintPrority:Float {
+        get {
+            return ratioConstraintPrority
+        }
+        set {
+            ratioConstraintPrority = newValue
+        }
+    }
+    var ratioConstraint:NSLayoutConstraint?
+    override open var image: UIImage? {
+        didSet {
+            if let image = image {
+                self.computeImageRatioConstraint(image)
+                
+            }
+            else {
+                self.removeImageRatioConstraint()
+            }
+            
+        }
+    }
+    public override init(frame: CGRect) {
         super.init(frame: frame)
     }
-    
-    required public init?(coder: NSCoder) {
-        super.init(coder: coder)
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
-    
+    open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+        self.doRoundCorners(corners: corners, radius: radius)
+    }
 }

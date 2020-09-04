@@ -1,14 +1,14 @@
 //
-//  IPaDesignableView.swift
-//  Pods
+//  IPaDesignableCollectionView.swift
+//  IPaDesignableUI
 //
-//  Created by IPa Chen on 2017/4/23.
-//
+//  Created by IPa Chen on 2019/1/2.
 //
 
 import UIKit
-//@IBDesignable
-open class IPaDesignableView: UIView,IPaDesignable,IPaDesignableShadow {
+
+open class IPaDesignableCollectionView: UICollectionView,IPaDesignable,IPaDesignableShadow ,IPaDesignableCanBeInnerScrollView {
+    @IBInspectable open var simultaneouslyOtherGesture: Bool = false
     open var cornerMask:CAShapeLayer?
     @IBInspectable open var cornerRadius:CGFloat {
         get {
@@ -34,7 +34,6 @@ open class IPaDesignableView: UIView,IPaDesignable,IPaDesignableShadow {
             self.setBorderColor(newValue)
         }
     }
-    
     @IBInspectable open var shadowColor:UIColor? {
         didSet {
             self.setShadowColor(shadowColor)
@@ -64,24 +63,40 @@ open class IPaDesignableView: UIView,IPaDesignable,IPaDesignableShadow {
             self.setShadowBlur(newValue)
         }
     }
-    @IBInspectable open var shadowSpread: CGFloat = 0 {
+    @IBInspectable open var shadowSpread: CGFloat = 0{
         didSet {
             self.updateShadowPath()
         }
     }
     override open var bounds: CGRect {
         didSet {
-            
             self.updateShadowPath()
         }
     }
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
+    
+    override open var intrinsicContentSize: CGSize {
+        
+        return self.collectionViewLayout.collectionViewContentSize
     }
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    open override func reloadData() {
+        super.reloadData()
+        self.invalidateIntrinsicContentSize()
     }
     open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
         self.doRoundCorners(corners: corners, radius: radius)
+    }
+    open func getCellIndexPath(contain view:UIView) -> IndexPath?
+    {
+        var cell:UIView? = view
+        repeat {
+            cell = cell?.superview
+            if cell == nil {
+                return nil
+            }
+            else if let cell = cell as? UICollectionViewCell,let indexPath = self.indexPath(for: cell) {
+                return indexPath
+            }
+            
+        }while true
     }
 }

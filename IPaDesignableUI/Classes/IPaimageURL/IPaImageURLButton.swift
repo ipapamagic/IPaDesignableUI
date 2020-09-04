@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 import IPaDownloadManager
 @objc open class IPaImageURLButton : IPaDesignableButton,IPaDesignableFitImage {
-    private var _imageURL:String?
-    private var _backgroundImageURL:String?
+    private var _imageUrl:URL?
+    private var _backgroundImageUrl:URL?
     var ratioConstraint:NSLayoutConstraint?
     var downloadImageOperation:Operation?
     var downloadBGImageOperation:Operation? 
@@ -24,25 +24,51 @@ import IPaDownloadManager
             ratioConstraintPrority = newValue
         }
     }
-    @objc open var imageURL:String? {
+    @objc open var imageUrl:URL? {
         get {
-            return _imageURL
+            return _imageUrl
         }
         set {
-            setImageURL(newValue, defaultImage: nil)
+            setImageUrl(newValue, defaultImage: nil)
         }
     }
-    @objc open var backgroundImageURL:String? {
+    @objc open var backgroundImageUrl:URL? {
         get {
-            return _backgroundImageURL
+            return _backgroundImageUrl
         }
         set {
-            setBackgroundImageURL(newValue, defaultImage: nil)
+            setBackgroundImageUrl(newValue, defaultImage: nil)
         }
     }
-    @objc open func setImageURL(_ imageURL:String?,defaultImage:UIImage?) {
+    @objc open var imageURLString:String? {
+        get {
+            return _imageUrl?.absoluteString
+        }
+        set {
+            if let urlString = newValue?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),let url = URL(string:urlString) {
+                setImageUrl(url, defaultImage: nil)
+            }
+            else {
+                setImageUrl(nil, defaultImage: nil)
+            }
+        }
+    }
+    @objc open var backgroundImageURLString:String? {
+        get {
+            return _backgroundImageUrl?.absoluteString
+        }
+        set {
+            if let urlString = newValue?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),let url = URL(string:urlString) {
+                setBackgroundImageUrl(url, defaultImage: nil)
+            }
+            else {
+                setBackgroundImageUrl(nil, defaultImage: nil)
+            }
+        }
+    }
+    @objc open func setImageUrl(_ imageUrl:URL?,defaultImage:UIImage?) {
         self.setImage(defaultImage, for: .normal)
-        if let imageURLString = imageURL , let imageUrl = URL(string: imageURLString) {
+        if let imageUrl = imageUrl {
             if let data = IPaImageURLCache.shared.cacheFile(with: imageUrl), let image = UIImage(data: data) {
                 DispatchQueue.main.async(execute: {
                     self.setImage(image, for: .normal)
@@ -73,9 +99,9 @@ import IPaDownloadManager
             }
         }
     }
-    @objc open func setBackgroundImageURL(_ imageURL:String?,defaultImage:UIImage?) {
+    @objc open func setBackgroundImageUrl(_ imageUrl:URL?,defaultImage:UIImage?) {
         self.setBackgroundImage(defaultImage, for: .normal)
-        if let imageURLString = imageURL , let imageUrl = URL(string: imageURLString) {
+        if let imageUrl = imageUrl {
             if let data = IPaImageURLCache.shared.cacheFile(with: imageUrl), let image = UIImage(data: data) {
                 DispatchQueue.main.async(execute: {
                     self.setBackgroundImage(image, for: .normal)
