@@ -72,7 +72,7 @@ open class IPaNestedScrollView: IPaDesignableScrollView {
         
         
         if containerRect.contains(childRect) {
-            
+            self.simultaneouslyOtherGesture = true
             childView.isScrollEnabled = true
             if (childView.contentOffset.x == 0 && self.contentOffset.x > 0) || (childView.contentOffset.y == 0 && self.contentOffset.y > 0) || (childView.contentOffset.x + childRect.width - self.childEdgeInsets.left == childRect.maxX && self.contentOffset.x + self.bounds.width < self.contentSize.width) || (childView.contentOffset.y + childRect.height - childEdgeInsets.top == childRect.maxY && self.contentOffset.y + self.bounds.height < self.contentSize.height) {
                 self.isScrollEnabled = true
@@ -95,6 +95,7 @@ open class IPaNestedScrollView: IPaDesignableScrollView {
             childView.isScrollEnabled = false
             childView.simultaneouslyOtherGesture = false
             self.isScrollEnabled = true
+            self.simultaneouslyOtherGesture = false
 //            let x = (childRect.minX < self.contentOffset.x) ?  childView.contentSize.width - childView.bounds.width : 0
 //
 //            let y = (childRect.minY < self.contentOffset.y) ?  childView.contentSize.height - childView.bounds.height : 0
@@ -107,6 +108,10 @@ open class IPaNestedScrollView: IPaDesignableScrollView {
     }
     
     open func register(_ scrollView:IPaDesignableCanBeInnerScrollView,edgeInsets:UIEdgeInsets = .zero) {
+        if let childScrollView = self.childScrollView ,(childScrollView) == (scrollView as UIScrollView) {
+            return
+        }
+        
         self.childScrollView = scrollView
         self.childScrollView?.simultaneouslyOtherGesture = true
         self.childEdgeInsets = edgeInsets

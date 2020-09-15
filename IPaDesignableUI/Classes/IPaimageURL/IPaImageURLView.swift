@@ -56,6 +56,15 @@ import IPaDownloadManager
     @available(*, unavailable, renamed: "setImageUrl")
     @objc open func setImageURL(_ imageURL:String?,defaultImage:UIImage?) {
     }
+    @objc open func setImageUrlString(_ imageUrlString:String?,defaultImage:UIImage?) {
+        var url:URL?
+        if let imageUrlString = imageUrlString {
+            url = URL(string:imageUrlString)
+        }
+        
+        self.setImageUrl(url, defaultImage: defaultImage)
+        
+    }
     @objc open func setImageUrl(_ imageUrl:URL?,defaultImage:UIImage?) {
         _imageUrl = imageUrl
         self.image = defaultImage
