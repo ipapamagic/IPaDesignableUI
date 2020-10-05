@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,36 +19,61 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GKL-G7-LS6" customClass="IPaImageURLView" customModule="IPaDesignableUI">
-                                <rect key="frame" x="16" y="20" width="343" height="100"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q63-HG-npL">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="znf-Vz-MCI">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="184"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WE8-22-8vR" customClass="IPaImageRightStyleButton" customModule="IPaDesignableUI">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="34"/>
+                                                <state key="normal" title="Button">
+                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                            </button>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GKL-G7-LS6" customClass="IPaImageURLView" customModule="IPaDesignableUI">
+                                                <rect key="frame" x="0.0" y="42" width="375" height="100"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="100" placeholder="YES" id="Kzt-Lk-8o1"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ar-Md-ZXX" customClass="IPaImageURLButton" customModule="IPaDesignableUI">
+                                                <rect key="frame" x="0.0" y="150" width="375" height="34"/>
+                                                <state key="normal" title="Button">
+                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="100" placeholder="YES" id="Kzt-Lk-8o1"/>
+                                    <constraint firstItem="znf-Vz-MCI" firstAttribute="width" secondItem="q63-HG-npL" secondAttribute="width" id="19z-ck-ElE"/>
+                                    <constraint firstItem="znf-Vz-MCI" firstAttribute="trailing" secondItem="Z3N-9O-5kr" secondAttribute="trailing" id="1Um-57-MTz"/>
+                                    <constraint firstItem="znf-Vz-MCI" firstAttribute="bottom" secondItem="Z3N-9O-5kr" secondAttribute="bottom" id="5dN-Sy-ZyR"/>
+                                    <constraint firstItem="znf-Vz-MCI" firstAttribute="top" secondItem="Z3N-9O-5kr" secondAttribute="top" id="SJn-CR-G7W"/>
+                                    <constraint firstItem="znf-Vz-MCI" firstAttribute="leading" secondItem="Z3N-9O-5kr" secondAttribute="leading" id="oqa-Jj-0bI"/>
                                 </constraints>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ar-Md-ZXX" customClass="IPaImageURLButton" customModule="IPaDesignableUI">
-                                <rect key="frame" x="24" y="128" width="327" height="34"/>
-                                <state key="normal" title="Button">
-                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                            </button>
+                                <viewLayoutGuide key="contentLayoutGuide" id="Z3N-9O-5kr"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="LdH-HB-EJj"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="8ar-Md-ZXX" secondAttribute="trailing" constant="8" id="Kep-mj-uNn"/>
-                            <constraint firstItem="GKL-G7-LS6" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="Wcx-zG-1pL"/>
-                            <constraint firstItem="8ar-Md-ZXX" firstAttribute="top" secondItem="GKL-G7-LS6" secondAttribute="bottom" constant="8" id="hw9-HC-cJf"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="GKL-G7-LS6" secondAttribute="trailing" id="n1l-L2-hnE"/>
-                            <constraint firstItem="8ar-Md-ZXX" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="8" id="tkn-Jl-gqu"/>
-                            <constraint firstItem="GKL-G7-LS6" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="v3s-4u-EVF"/>
+                            <constraint firstItem="q63-HG-npL" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="83y-So-exU"/>
+                            <constraint firstItem="q63-HG-npL" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="8cM-ea-DNK"/>
+                            <constraint firstAttribute="bottom" secondItem="q63-HG-npL" secondAttribute="bottom" id="joy-4A-s0K"/>
+                            <constraint firstAttribute="trailing" secondItem="q63-HG-npL" secondAttribute="trailing" id="vl4-vO-vwk"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="button" destination="8ar-Md-ZXX" id="CRg-BQ-8hO"/>
+                        <outlet property="imageRightBtn" destination="WE8-22-8vR" id="n7V-ld-eSX"/>
                         <outlet property="imageView" destination="GKL-G7-LS6" id="qTi-P6-AlB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-218" y="133"/>
         </scene>
     </scenes>
 </document>

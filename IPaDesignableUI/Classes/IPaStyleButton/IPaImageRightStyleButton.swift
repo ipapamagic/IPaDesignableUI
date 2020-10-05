@@ -6,31 +6,13 @@
 //
 
 import UIKit
-
-open class IPaImageRightStyleButton: IPaStyleButton {
-    @IBInspectable open var centerSpace: CGFloat = 0 {
-        didSet {
-            self.reloadStyle()
-        }
-    }
-    @IBInspectable open var leftSpace: CGFloat = 0 {
-        didSet {
-            self.reloadStyle()
-        }
-    }
-    @IBInspectable open var rightSpace: CGFloat = 0 {
-        didSet {
-            self.reloadStyle()
-        }
-    }
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-    public override func reloadStyle() {
+public protocol IPaImageRightStyle:IPaStyleButton {
+    var centerSpace: CGFloat {get set}
+    var leftSpace: CGFloat {get set}
+    var rightSpace: CGFloat {get set}
+}
+public extension IPaImageRightStyle {
+    func assignStyle() {
         guard let imageView = imageView,let titleLabel = titleLabel else {
             return
         }
@@ -45,5 +27,25 @@ open class IPaImageRightStyleButton: IPaStyleButton {
         let imageLeft = titleLabel.frame.size.width + halfSpace
         imageEdgeInsets = UIEdgeInsets(top: 0, left: imageLeft, bottom: 0, right: -imageLeft)
         contentEdgeInsets = UIEdgeInsets(top: 0, left: halfSpace + leftSpace, bottom: 0, right: halfSpace + rightSpace)
+    }
+}
+open class IPaImageRightStyleButton: IPaStyleButton,IPaImageRightStyle {
+    @IBInspectable open var centerSpace: CGFloat = 0 {
+        didSet {
+            self.assignStyle()
+        }
+    }
+    @IBInspectable open var leftSpace: CGFloat = 0 {
+        didSet {
+            self.assignStyle()
+        }
+    }
+    @IBInspectable open var rightSpace: CGFloat = 0 {
+        didSet {
+            self.assignStyle()
+        }
+    }
+    open override func reloadStyle() {
+        self.assignStyle()
     }
 }

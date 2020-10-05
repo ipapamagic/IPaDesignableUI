@@ -8,15 +8,25 @@
 
 import UIKit
 import IPaDesignableUI
+import IPaImageTool
 class ViewController: UIViewController {
     @IBOutlet weak var imageView: IPaImageURLView!
     
+    @IBOutlet weak var imageRightBtn: IPaImageRightStyleButton!
     @IBOutlet weak var button: IPaImageURLButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        imageView.imageURL = "https://www.penghu-nsa.gov.tw/FileDownload/Album/Big/20161012162551758864338.jpg"
-        button.imageURL =  "https://www.penghu-nsa.gov.tw/FileDownload/Album/Big/20161012162551758864338.jpg"
+        imageView.imageURLString = "https://www.penghu-nsa.gov.tw/FileDownload/Album/Big/20161012162551758864338.jpg"
+        button.imageURLString =  "https://www.penghu-nsa.gov.tw/FileDownload/Album/Big/20161012162551758864338.jpg"
+        let image = UIImage.createImage(CGSize(width: 44, height: 44), operation: {
+            context in
+            context.setFillColor(UIColor.red.cgColor)
+            context.fill(CGRect(x: 0, y: 0, width: 44, height: 44))
+            
+        })
+        imageRightBtn.setImage(image, for: .normal)
+        
     }
 
     override func didReceiveMemoryWarning() {

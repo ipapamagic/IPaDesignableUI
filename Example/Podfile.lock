@@ -1,18 +1,22 @@
 PODS:
-  - IPaDesignableUI (3.10):
-    - IPaDownloadManager (~> 1.2)
-  - IPaDownloadManager (1.2):
+  - IPaDesignableUI (4.0):
+    - IPaDownloadManager (~> 1.3)
+    - IPaImageTool (~> 2.3)
+  - IPaDownloadManager (1.3):
     - IPaSecurity (~> 3.1)
-  - IPaLog (2.3)
+  - IPaImageTool (2.4)
+  - IPaLog (3.0)
   - IPaSecurity (3.1):
     - IPaLog (>= 2.1)
 
 DEPENDENCIES:
   - IPaDesignableUI (from `../`)
+  - IPaImageTool (~> 2.4)
 
 SPEC REPOS:
   https://github.com/ipapamagic/IPaPods.git:
     - IPaDownloadManager
+    - IPaImageTool
     - IPaLog
     - IPaSecurity
 
@@ -21,11 +25,12 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  IPaDesignableUI: d73da9044767e1f2789b74a52c627232e7b85406
-  IPaDownloadManager: b19ce142b14a818d0b64877d90db5a87fda2c992
-  IPaLog: 94e55e52fa0a4c3954ae8bf19bb56291d4d7ccb8
+  IPaDesignableUI: 93d13b5c053fe4c0249bcfe511489fa455d30bb6
+  IPaDownloadManager: 7bbfbcb6f1abb5c2250e0c3b2434a96110cfaa57
+  IPaImageTool: 7701efd4827f959692ea79251fa4a9b06dd4b380
+  IPaLog: cf733c32ff559566db380a838a240775bf0867b6
   IPaSecurity: 0abd374149fd917d01c6845854a924b5bc79de17
 
-PODFILE CHECKSUM: e84eecb1fb8094f1b74ca1fb17f49843ab5dc222
+PODFILE CHECKSUM: bea1062a7e6e3cbd9a311dae0a911f9fb4621611
 
 COCOAPODS: 1.9.1
