@@ -70,9 +70,7 @@ import IPaDownloadManager
         self.image = defaultImage
         if let imageUrl = imageUrl {
             if let data = IPaImageURLCache.shared.cacheFile(with: imageUrl), let image = UIImage(data: data) {
-                DispatchQueue.main.async(execute: {
-                    self.image = image
-                })
+                self.image = image
                 return
             }
             downloadOperation = IPaDownloadManager.shared.download(from: imageUrl, complete: { (result) in
