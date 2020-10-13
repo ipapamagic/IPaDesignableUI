@@ -7,7 +7,7 @@
 
 import UIKit
 import WebKit
-public protocol IPaFitContentWebViewContainer {
+@objc public protocol IPaFitContentWebViewContainer {
     func onWebViewContentSizeUpdate(_ webView:IPaFitContentWebView)
 }
 // IPaWebViewOpenUrlHandler is for WKNavigationDelegate,that will use open url to open link
@@ -59,7 +59,7 @@ open class IPaFitContentWebView: IPaDesignableWebView {
             self.setNeedsLayout()
         }
     }
-    public var fitContentWebViewContainer:IPaFitContentWebViewContainer?
+    @IBOutlet public var fitContentWebViewContainer:IPaFitContentWebViewContainer?
     lazy var heightConstraint:NSLayoutConstraint = {
         let constraint = self.heightAnchor.constraint(equalToConstant: self.contentHeight)
         constraint.priority = UILayoutPriority(rawValue: 999)
