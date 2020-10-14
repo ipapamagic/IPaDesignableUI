@@ -100,8 +100,8 @@ open class IPaDesignableWebView: WKWebView ,IPaDesignable,IPaDesignableShadow {
         self.initialJSScript()
     }
     deinit {
-            configuration.userContentController.removeScriptMessageHandler(forName: "windowLoaded")
-    //        removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: &observerContext)
+        configuration.userContentController.removeScriptMessageHandler(forName: "windowLoaded")
+        //        removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: &observerContext)
     }
     func initialJSScript() {
         let source = "window.onload=function () {window.webkit.messageHandlers.windowLoaded.postMessage({});};"
@@ -109,16 +109,20 @@ open class IPaDesignableWebView: WKWebView ,IPaDesignable,IPaDesignableShadow {
         //UserScript object
         let script = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
         
-    
+        
+        //fit content size script
+        let metaSource = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width initial-scale=1'); document.getElementsByTagName('head')[0].appendChild(meta);"
         //Content Controller object
         let controller = self.configuration.userContentController
         
         controller.addUserScript(script)
-       
+        
         //Add message handler reference
         controller.add(self, name: "windowLoaded")
         
+        let metaScript = WKUserScript(source: metaSource, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
         
+        controller.addUserScript(metaScript)
         
     }
     open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
@@ -146,26 +150,26 @@ open class IPaDesignableWebView: WKWebView ,IPaDesignable,IPaDesignableShadow {
         }
         let paramsString = params.joined(separator: ",")
         let postSource = """
-            function post(url, params) {
-                var method = "post";
-                var form = document.createElement("form");
-                form.setAttribute("method", method);
-                form.setAttribute("action", url);
-
-                for(var key in params) {
-                    if(params.hasOwnProperty(key)) {
-                        var hiddenField = document.createElement("input");
-                        hiddenField.setAttribute("type", "hidden");
-                        hiddenField.setAttribute("name", key);
-                        hiddenField.setAttribute("value", params[key]);
-                        form.appendChild(hiddenField);
-                    }
-                }
-                document.body.appendChild(form);
-                form.submit();
-            }
-            post('\(urlString)',{\(paramsString)});
-            """
+        function post(url, params) {
+        var method = "post";
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", url);
+        
+        for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", key);
+        hiddenField.setAttribute("value", params[key]);
+        form.appendChild(hiddenField);
+        }
+        }
+        document.body.appendChild(form);
+        form.submit();
+        }
+        post('\(urlString)',{\(paramsString)});
+        """
         self.evaluateJavaScript(postSource) { (result, error) in
             if let error = error {
                 IPaLog("IPaDesignableWebView - post error: \(error)")
@@ -175,7 +179,13 @@ open class IPaDesignableWebView: WKWebView ,IPaDesignable,IPaDesignableShadow {
     open func onWindowLoaded() {
         
     }
-    
+    public func loadHTMLString(_ string: String, baseURL: URL?,replacePtToPx:Bool) -> WKNavigation? {
+        var content = string
+        if replacePtToPx {
+            content = IPaDesignableWebView.replaceCSSPtToPx(with: string)
+        }
+        return super.loadHTMLString(content, baseURL: baseURL)
+    }
 }
 extension IPaDesignableWebView:WKScriptMessageHandler
 {

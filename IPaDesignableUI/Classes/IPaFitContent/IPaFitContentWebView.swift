@@ -84,19 +84,15 @@ open class IPaFitContentWebView: IPaDesignableWebView {
         
         
         let resizeSource = "document.body.addEventListener( 'resize', incrementCounter); function incrementCounter() {window.webkit.messageHandlers.sizeNotification.postMessage({height: document.body.scrollHeight});};"
-        let metaSource = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width initial-scale=1'); document.getElementsByTagName('head')[0].appendChild(meta);"
-        
         
         //UserScript object
 
         let resizeScript = WKUserScript(source: resizeSource, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
         
-        let metaScript = WKUserScript(source: metaSource, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
         //Content Controller object
         let controller = self.configuration.userContentController
         
         controller.addUserScript(resizeScript)
-        controller.addUserScript(metaScript)
         //Add message handler reference
         controller.add(self, name: "sizeNotification")
         
@@ -120,13 +116,6 @@ open class IPaFitContentWebView: IPaDesignableWebView {
         
     }
 
-    public func loadHTMLString(_ string: String, baseURL: URL?,replacePtToPx:Bool) -> WKNavigation? {
-        var content = string
-        if replacePtToPx {
-            content = IPaFitContentWebView.replaceCSSPtToPx(with: string)
-        }
-        return super.loadHTMLString(content, baseURL: baseURL)
-    }
     override open func onWindowLoaded() {
         self.evaluateJavaScript("window.webkit.messageHandlers.sizeNotification.postMessage({justLoaded:true,height: document.body.scrollHeight});") { (result, error) in
             

@@ -53,9 +53,9 @@ extension IPaDesignable where Self:UIView {
         layer.mask = self.cornerMask
     }
     
-    func setCornerRadius(_ cornerRadius:CGFloat) {
+    func setCornerRadius(_ cornerRadius:CGFloat,maskToBounds:Bool = true) {
         self.layer.cornerRadius = cornerRadius
-//        self.layer.masksToBounds = true
+        self.layer.masksToBounds = maskToBounds
     }
     func getCornerRadius() -> CGFloat {
         return self.layer.cornerRadius
