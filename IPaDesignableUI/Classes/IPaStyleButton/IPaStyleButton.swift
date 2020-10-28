@@ -52,7 +52,8 @@ open class IPaStyleButton: IPaDesignableButton {
     */
     override open func setTitle(_ title: String?, for state: UIControl.State) {
         styler?.clearStyle(self)
-        super.setTitle(title, for: state)
+        //IPaTips: force to set title if title length is 0 , by default title lenge  equal to zero , UIButton will not set title to label,but hide titleLabel instead,it will cause the caculation incorrect
+        super.setTitle((title?.count == 0) ? " " : title, for: state)
         styler?.reloadStyle(self)
     }
     override open func setImage(_ image: UIImage?, for state: UIControl.State) {
