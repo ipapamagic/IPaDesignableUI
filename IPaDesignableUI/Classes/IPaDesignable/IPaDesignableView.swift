@@ -16,7 +16,7 @@ open class IPaDesignableView: UIView,IPaDesignable,IPaDesignableShadow {
             return self.getCornerRadius()
         }
         set {
-            self.setCornerRadius(newValue)
+            self.setCornerRadius(newValue,maskToBounds: false)
         }
     }
     @IBInspectable open var borderWidth:CGFloat {
