@@ -31,8 +31,16 @@ protocol IPaDesignableFitImage:UIView {
     var ratioConstraintPrority:Float { get set }
     var ratioConstraint:NSLayoutConstraint? {get set}
 }
-@objc public protocol IPaDesignableCanBeInnerScrollView:UIGestureRecognizerDelegate where Self:UIScrollView {
+public protocol IPaDesignableCanBeInnerScrollView:UIGestureRecognizerDelegate  {
     var simultaneouslyOtherGesture:Bool { get set}
+    var targetScrollView:UIScrollView {get}
+}
+extension IPaDesignableCanBeInnerScrollView where Self:UIScrollView{
+    public var targetScrollView:UIScrollView {
+        get {
+            return self
+        }
+    }
 }
 extension IPaDesignable where Self:UIView {
     
