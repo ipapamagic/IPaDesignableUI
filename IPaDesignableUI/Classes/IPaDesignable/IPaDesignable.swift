@@ -115,8 +115,8 @@ extension IPaDesignableShadow where Self:IPaDesignable {
     func getShadowBlur() -> CGFloat {
         return self.layer.shadowRadius * 2
     }
-    func updateShadowPath() {
-        if shadowSpread == 0 {
+    func updateShadowPath(_ forcePath:Bool = false) {
+        if shadowSpread == 0 && !forcePath {
             self.layer.shadowPath = nil
         }
         else {

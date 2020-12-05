@@ -15,7 +15,7 @@ open class IPaDesignableButton: UIButton,IPaDesignable,IPaDesignableShadow {
             return self.getCornerRadius()
         }
         set {
-            self.setCornerRadius(newValue)
+            self.setCornerRadius(newValue,maskToBounds: false)
             
         }
     }
@@ -66,13 +66,18 @@ open class IPaDesignableButton: UIButton,IPaDesignable,IPaDesignableShadow {
     }
     @IBInspectable open var shadowSpread: CGFloat = 0{
         didSet {
-            self.updateShadowPath()
+            self.updateShadowPath(shadowPath)
+        }
+    }
+    @IBInspectable open var shadowPath:Bool = false {
+        didSet {
+            self.updateShadowPath(shadowPath)
         }
     }
     override open var bounds: CGRect {
         didSet {
             
-            self.updateShadowPath()
+            self.updateShadowPath(shadowPath)
         }
     }
     public override init(frame: CGRect) {
@@ -84,4 +89,5 @@ open class IPaDesignableButton: UIButton,IPaDesignable,IPaDesignableShadow {
     open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
         self.doRoundCorners(corners: corners, radius: radius)
     }
+    
 }

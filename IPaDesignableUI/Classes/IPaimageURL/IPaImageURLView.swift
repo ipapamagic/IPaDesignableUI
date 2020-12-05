@@ -56,16 +56,16 @@ import IPaDownloadManager
     @available(*, unavailable, renamed: "setImageUrl")
     @objc open func setImageURL(_ imageURL:String?,defaultImage:UIImage?) {
     }
-    @objc open func setImageUrlString(_ imageUrlString:String?,defaultImage:UIImage?) {
+    @objc open func setImageUrlString(_ imageUrlString:String?,defaultImage:UIImage?,downloadCompleted: ((UIImage?)->())? = nil) {
         var url:URL?
         if let imageUrlString = imageUrlString {
             url = URL(string:imageUrlString)
         }
         
-        self.setImageUrl(url, defaultImage: defaultImage)
+    self.setImageUrl(url, defaultImage: defaultImage,downloadCompleted:downloadCompleted)
         
     }
-    @objc open func setImageUrl(_ imageUrl:URL?,defaultImage:UIImage?) {
+    @objc open func setImageUrl(_ imageUrl:URL?,defaultImage:UIImage?,downloadCompleted: ((UIImage?)->())? = nil) {
         _imageUrl = imageUrl
         self.image = defaultImage
         if let imageUrl = imageUrl {
@@ -84,6 +84,7 @@ import IPaDownloadManager
                             
                             DispatchQueue.main.async(execute: {
                                 self.image = image
+                                downloadCompleted?(image)
                             })
                             
                         }
@@ -98,9 +99,9 @@ import IPaDownloadManager
         }
     }
     @available(*, unavailable, renamed: "setHighlightedImageUrl")
-    @objc open func setHighlightedImageURL(_ imageURL:String?,defaultImage:UIImage?) {
+    @objc open func setHighlightedImageURL(_ imageURL:String?,defaultImage:UIImage?,downloadCompleted: ((UIImage?)->())? = nil) {
     }
-    @objc open func setHighlightedImageUrl(_ imageUrl:URL?,defaultImage:UIImage?) {
+    @objc open func setHighlightedImageUrl(_ imageUrl:URL?,defaultImage:UIImage?,downloadCompleted: ((UIImage?)->())? = nil) {
         self.highlightedImage = defaultImage
         if let imageUrl = imageUrl {
             if let data = IPaImageURLCache.shared.cacheFile(with: imageUrl), let image = UIImage(data: data) {
@@ -116,6 +117,7 @@ import IPaDownloadManager
                     if let image = UIImage(contentsOfFile: newUrl.absoluteString) {
                         DispatchQueue.main.async(execute: {
                             self.highlightedImage = image
+                            downloadCompleted?(image)
                         })
                     }
                     
