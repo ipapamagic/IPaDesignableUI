@@ -111,7 +111,7 @@ open class IPaDesignableWebView: WKWebView ,IPaDesignable,IPaDesignableShadow,IP
         //        removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: &observerContext)
     }
     func initialJSScript() {
-        let source = "window.onload=function () {window.webkit.messageHandlers.windowLoaded.postMessage({});};"
+        let source = "window.addEventListener(\"load\", function () {window.webkit.messageHandlers.windowLoaded.postMessage({});}, false); "
         
         //UserScript object
         let script = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
