@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol IPaDesignable:UIView {
+public protocol IPaDesignable:UIView {
     var cornerMask:CAShapeLayer? {get set}
     var cornerRadius:CGFloat {get set}
     var borderWidth:CGFloat {get set}
@@ -82,6 +82,17 @@ extension IPaDesignable where Self:UIView {
             return UIColor(cgColor: color)
         }
         return nil
+    }
+    @discardableResult
+    public func applyGradient(colours: [UIColor],startPoint:CGPoint,endPoint:CGPoint,locations: [NSNumber]? = nil) -> CAGradientLayer {
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.frame = self.bounds
+        gradient.colors = colours.map { $0.cgColor }
+        gradient.locations = locations
+        gradient.startPoint = startPoint
+        gradient.endPoint = endPoint
+        self.layer.insertSublayer(gradient, at: 0)
+        return gradient
     }
     
 }
