@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import IPaLog
 import IPaDownloadManager
+import IPaFileCache
 @objc open class IPaImageURLView : IPaDesignableImageView {
     fileprivate var _imageUrl:URL?
     fileprivate var _highlightedImageUrl:URL?
@@ -69,7 +70,7 @@ import IPaDownloadManager
         _imageUrl = imageUrl
         self.image = defaultImage
         if let imageUrl = imageUrl {
-            if let data = IPaImageURLCache.shared.cacheFile(with: imageUrl), let image = UIImage(data: data) {
+            if let data = IPaFileCache.shared.cacheFileData(for: imageUrl), let image = UIImage(data: data) {
                 self.image = image
                 return
             }
@@ -78,7 +79,7 @@ import IPaDownloadManager
                 switch(result) {
                 case .success(let (_,url)):
                     do {
-                        let newUrl = IPaImageURLCache.shared.saveCache(with: imageUrl, from: url)
+                        let newUrl = IPaFileCache.shared.moveToCache(for: imageUrl, from: url)
                         let data = try Data(contentsOf: newUrl)
                         if  let image = UIImage(data: data) {
                             
@@ -104,7 +105,7 @@ import IPaDownloadManager
     @objc open func setHighlightedImageUrl(_ imageUrl:URL?,defaultImage:UIImage?,downloadCompleted: ((UIImage?)->())? = nil) {
         self.highlightedImage = defaultImage
         if let imageUrl = imageUrl {
-            if let data = IPaImageURLCache.shared.cacheFile(with: imageUrl), let image = UIImage(data: data) {
+            if let data = IPaFileCache.shared.cacheFileData(for: imageUrl), let image = UIImage(data: data) {
                 DispatchQueue.main.async(execute: {
                     self.highlightedImage = image
                 })
@@ -113,7 +114,7 @@ import IPaDownloadManager
             _ = IPaDownloadManager.shared.download(from: imageUrl) { (result) in
                 switch(result) {
                 case .success(let (_,url)):
-                    let newUrl = IPaImageURLCache.shared.saveCache(with: imageUrl, from: url)
+                    let newUrl = IPaFileCache.shared.moveToCache(for:  imageUrl, from: url)
                     if let image = UIImage(contentsOfFile: newUrl.absoluteString) {
                         DispatchQueue.main.async(execute: {
                             self.highlightedImage = image

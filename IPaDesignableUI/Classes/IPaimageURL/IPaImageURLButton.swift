@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import IPaDownloadManager
+import IPaFileCache
 @objc open class IPaImageURLButton : IPaDesignableButton,IPaDesignableFitImage {
     private var _imageUrl:URL?
     private var _backgroundImageUrl:URL?
@@ -69,7 +70,7 @@ import IPaDownloadManager
     @objc open func setImageUrl(_ imageUrl:URL?,defaultImage:UIImage?) {
         self.setImage(defaultImage, for: .normal)
         if let imageUrl = imageUrl {
-            if let data = IPaImageURLCache.shared.cacheFile(with: imageUrl), let image = UIImage(data: data) {
+            if let data = IPaFileCache.shared.cacheFileData(for: imageUrl), let image = UIImage(data: data) {
                 DispatchQueue.main.async(execute: {
                     self.setImage(image, for: .normal)
                 })
@@ -80,7 +81,7 @@ import IPaDownloadManager
                 switch(result) {
                 case .success(let (_,url)):
                     do {
-                        let newUrl = IPaImageURLCache.shared.saveCache(with: imageUrl, from: url)
+                        let newUrl = IPaFileCache.shared.moveToCache(for: imageUrl, from: url)
                         let data = try Data(contentsOf: newUrl)
                         if  let image = UIImage(data: data) {
 
@@ -102,7 +103,7 @@ import IPaDownloadManager
     @objc open func setBackgroundImageUrl(_ imageUrl:URL?,defaultImage:UIImage?) {
         self.setBackgroundImage(defaultImage, for: .normal)
         if let imageUrl = imageUrl {
-            if let data = IPaImageURLCache.shared.cacheFile(with: imageUrl), let image = UIImage(data: data) {
+            if let data = IPaFileCache.shared.cacheFileData(for: imageUrl), let image = UIImage(data: data) {
                 DispatchQueue.main.async(execute: {
                     self.setBackgroundImage(image, for: .normal)
                 })
@@ -113,7 +114,7 @@ import IPaDownloadManager
                 switch(result) {
                 case .success(let (_,url)):
                     do {
-                        let newUrl = IPaImageURLCache.shared.saveCache(with: imageUrl, from: url)
+                        let newUrl = IPaFileCache.shared.moveToCache(for: imageUrl, from: url)
                         let data = try Data(contentsOf: newUrl)
                         if  let image = UIImage(data: data)                             {
                             

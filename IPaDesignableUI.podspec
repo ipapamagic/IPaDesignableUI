@@ -40,4 +40,5 @@ TODO: Add long description of the pod here.
   # s.dependency 'AFNetworking', '~> 2.3'
   s.dependency 'IPaDownloadManager', '~> 1.3'
   s.dependency 'IPaImageTool', '~> 2.3'
+  s.dependency 'IPaFileCache', '~> 1.0'
 end
