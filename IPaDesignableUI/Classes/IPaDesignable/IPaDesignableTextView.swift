@@ -11,59 +11,7 @@ import UIKit
 open class IPaDesignableTextView: UITextView,IPaDesignable,IPaDesignableShadow,IPaDesignableTextInset,IPaDesignableCanBeInnerScrollView {
     @IBInspectable open var simultaneouslyOtherGesture: Bool = false
     open var cornerMask:CAShapeLayer?
-    @IBInspectable open var cornerRadius:CGFloat {
-        get {
-            return self.getCornerRadius()
-        }
-        set {
-            self.setCornerRadius(newValue)
-        }
-    }
-    @IBInspectable open var borderWidth:CGFloat {
-        get {
-            return self.getBorderWidth()
-        }
-        set {
-            self.setBorderWidth(newValue)
-        }
-    }
-    @IBInspectable open var borderColor:UIColor? {
-        get {
-            return self.getBorderColor()
-        }
-        set {
-            self.setBorderColor(newValue)
-        }
-    }
-    @IBInspectable open var shadowColor:UIColor? {
-        didSet {
-            self.setShadowColor(shadowColor)
-        }
-    }
-    @IBInspectable open var shadowOffset:CGSize {
-        get {
-            return self.getShadowOffset()
-        }
-        set {
-            self.setShadowOffset(newValue)
-        }
-    }
-    @IBInspectable open var shadowOpacity:CGFloat {
-        get {
-            return self.getShadowOpacity()
-        }
-        set {
-            self.setShadowOpacity(newValue)
-        }
-    }
-    @IBInspectable open var shadowBlur: CGFloat {
-        get {
-            return self.getShadowBlur()
-        }
-        set {
-            self.setShadowBlur(newValue)
-        }
-    }
+    
     @IBInspectable open var shadowSpread: CGFloat = 0{
         didSet {
             self.updateShadowPath()
@@ -234,9 +182,7 @@ open class IPaDesignableTextView: UITextView,IPaDesignable,IPaDesignableShadow,I
 //        superRect.size.height = caretHeight
 //        return superRect
     }
-    open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
-        self.doRoundCorners(corners: corners, radius: radius)
-    }
+    
     open func setHtmlContent(_ content:String,encoding:String.Encoding = .utf8,replacePtToPx:Bool = true) {
         var content = replacePtToPx ? IPaDesignableTextView.replaceCSSPtToPx(with: content) : content
             content += "<style>img { max-width:\(self.bounds.size.width - self.leftInset - self.rightInset)px; height: auto !important; } </style>"
