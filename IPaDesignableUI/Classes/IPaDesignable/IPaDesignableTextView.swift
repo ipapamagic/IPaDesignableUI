@@ -83,7 +83,9 @@ open class IPaDesignableTextView: UITextView,IPaDesignable,IPaDesignableShadow,I
         }
         set {
             placeholderLabel.text = newValue
+            self.setNeedsDisplay()
         }
+        
     }
     @IBInspectable open var placeholderColor:UIColor
         {

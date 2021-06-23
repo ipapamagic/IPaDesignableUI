@@ -11,60 +11,7 @@ import IPaImageTool
 //@IBDesignable
 open class IPaDesignableView: UIView,IPaDesignable,IPaDesignableShadow {
     open var cornerMask:CAShapeLayer?
-    @IBInspectable open var cornerRadius:CGFloat {
-        get {
-            return self.getCornerRadius()
-        }
-        set {
-            self.setCornerRadius(newValue,maskToBounds: false)
-        }
-    }
-    @IBInspectable open var borderWidth:CGFloat {
-        get {
-            return self.getBorderWidth()
-        }
-        set {
-            self.setBorderWidth(newValue)
-        }
-    }
-    @IBInspectable open var borderColor:UIColor? {
-        get {
-            return self.getBorderColor()
-        }
-        set {
-            self.setBorderColor(newValue)
-        }
-    }
     
-    @IBInspectable open var shadowColor:UIColor? {
-        didSet {
-            self.setShadowColor(shadowColor)
-        }
-    }
-    @IBInspectable open var shadowOffset:CGSize {
-        get {
-            return self.getShadowOffset()
-        }
-        set {
-            self.setShadowOffset(newValue)
-        }
-    }
-    @IBInspectable open var shadowOpacity:CGFloat {
-        get {
-            return self.getShadowOpacity()
-        }
-        set {
-            self.setShadowOpacity(newValue)
-        }
-    }
-    @IBInspectable open var shadowBlur: CGFloat {
-        get {
-            return self.getShadowBlur()
-        }
-        set {
-            self.setShadowBlur(newValue)
-        }
-    }
     @IBInspectable open var shadowSpread: CGFloat = 0 {
         didSet {
             self.updateShadowPath()
@@ -81,9 +28,6 @@ open class IPaDesignableView: UIView,IPaDesignable,IPaDesignableShadow {
     }
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-    }
-    open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
-        self.doRoundCorners(corners: corners, radius: radius)
     }
     open func setBackgroundImage(_ image:UIImage,mode:UIView.ContentMode) {
         var modifyImage:UIImage

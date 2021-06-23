@@ -10,59 +10,6 @@ import UIKit
 open class IPaDesignableScrollView: UIScrollView,IPaDesignable ,IPaDesignableShadow ,IPaDesignableCanBeInnerScrollView {
     @IBInspectable open var simultaneouslyOtherGesture: Bool = false
     public var cornerMask: CAShapeLayer?
-    @IBInspectable open var cornerRadius:CGFloat {
-        get {
-            return self.getCornerRadius()
-        }
-        set {
-            self.setCornerRadius(newValue)
-        }
-    }
-    @IBInspectable open var borderWidth:CGFloat {
-        get {
-            return self.getBorderWidth()
-        }
-        set {
-            self.setBorderWidth(newValue)
-        }
-    }
-    @IBInspectable open var borderColor:UIColor? {
-        get {
-            return self.getBorderColor()
-        }
-        set {
-            self.setBorderColor(newValue)
-        }
-    }
-    @IBInspectable open var shadowColor:UIColor? {
-        didSet {
-            self.setShadowColor(shadowColor)
-        }
-    }
-    @IBInspectable open var shadowOffset:CGSize {
-        get {
-            return self.getShadowOffset()
-        }
-        set {
-            self.setShadowOffset(newValue)
-        }
-    }
-    @IBInspectable open var shadowOpacity:CGFloat {
-        get {
-            return self.getShadowOpacity()
-        }
-        set {
-            self.setShadowOpacity(newValue)
-        }
-    }
-    @IBInspectable open var shadowBlur: CGFloat {
-        get {
-            return self.getShadowBlur()
-        }
-        set {
-            self.setShadowBlur(newValue)
-        }
-    }
     @IBInspectable open var shadowSpread: CGFloat = 0{
         didSet {
             self.updateShadowPath()
@@ -81,10 +28,7 @@ open class IPaDesignableScrollView: UIScrollView,IPaDesignable ,IPaDesignableSha
     
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
-    }
-    open func scrollAnimation(_ startOffset:CGPoint,startVelocity:CGPoint) {
-        
-    }
+    }    
 }
 extension IPaDesignableScrollView:UIGestureRecognizerDelegate
 {

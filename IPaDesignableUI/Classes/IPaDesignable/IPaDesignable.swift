@@ -7,19 +7,91 @@
 
 import UIKit
 
+extension UIView {
+    @IBInspectable var maskToBounds:Bool {
+        get {
+            return self.layer.masksToBounds
+        }
+        set {
+            self.layer.masksToBounds = newValue
+        }
+    }
+    @IBInspectable var cornerRadius:CGFloat {
+        get {
+            return self.layer.cornerRadius
+        }
+        set {
+            self.layer.cornerRadius = newValue
+        }
+    }
+    @IBInspectable var borderWidth:CGFloat {
+        get {
+            return self.layer.borderWidth
+        }
+        set {
+            self.layer.borderWidth = newValue
+        }
+    }
+    @IBInspectable var borderColor:UIColor? {
+        get {
+            if let color = self.layer.borderColor {
+                return UIColor(cgColor: color)
+            }
+            return nil
+        }
+        set {
+            self.layer.borderColor = newValue?.cgColor
+        }
+    }
+    @IBInspectable var shadowColor:UIColor? {
+        get {
+            if let color = self.layer.shadowColor {
+                return UIColor(cgColor: color)
+            }
+            return nil
+        }
+        set {
+            self.layer.shadowColor = newValue?.cgColor
+        }
+    }
+    @IBInspectable var shadowRadius:CGFloat {
+        get {
+            return self.layer.shadowRadius
+        }
+        set {
+            self.layer.shadowRadius = newValue
+        }
+    }
+    @IBInspectable var shadowBlur:CGFloat {
+        get {
+            return self.shadowRadius * 2
+        }
+        set {
+            self.shadowRadius = newValue * 0.5
+        }
+    }
+    @IBInspectable var shadowOffset:CGSize {
+        get {
+            return self.layer.shadowOffset
+        }
+        set {
+            self.layer.shadowOffset = newValue
+        }
+    }
+    @IBInspectable var shadowOpacity:Float {
+        get {
+            return self.layer.shadowOpacity
+        }
+        set {
+            self.layer.shadowOpacity = newValue
+        }
+    }
+}
 public protocol IPaDesignable:UIView {
     var cornerMask:CAShapeLayer? {get set}
-    var cornerRadius:CGFloat {get set}
-    var borderWidth:CGFloat {get set}
-    var borderColor:UIColor? {get set}
-    
 }
 protocol IPaDesignableShadow:UIView {
-    var shadowColor:UIColor? {get set}
-    var shadowBlur:CGFloat {get set}
     var shadowSpread:CGFloat {get set}
-    var shadowOffset:CGSize {get set}
-    var shadowOpacity:CGFloat {get set}
 }
 protocol IPaDesignableTextInset:UIView {
     var bottomInset: CGFloat {get set}
@@ -54,35 +126,13 @@ extension IPaDesignable where Self:UIView {
         return newString
     }
     
-    func doRoundCorners(corners: UIRectCorner, radius: CGFloat) {
+    public func roundCorners(corners: UIRectCorner, radius: CGFloat) {
         let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         self.cornerMask = CAShapeLayer()
         self.cornerMask?.path = path.cgPath
         layer.mask = self.cornerMask
     }
     
-    func setCornerRadius(_ cornerRadius:CGFloat,maskToBounds:Bool = true) {
-        self.layer.cornerRadius = cornerRadius
-        self.layer.masksToBounds = maskToBounds
-    }
-    func getCornerRadius() -> CGFloat {
-        return self.layer.cornerRadius
-    }
-    func setBorderWidth(_ borderWidth:CGFloat) {
-        self.layer.borderWidth = borderWidth
-    }
-    func getBorderWidth() -> CGFloat {
-        return self.layer.borderWidth
-    }
-    func setBorderColor(_ borderColor:UIColor?) {
-        self.layer.borderColor = borderColor?.cgColor
-    }
-    func getBorderColor() -> UIColor? {
-        if let color = self.layer.borderColor {
-            return UIColor(cgColor: color)
-        }
-        return nil
-    }
     @discardableResult
     public func applyGradient(colours: [UIColor],startPoint:CGPoint,endPoint:CGPoint,locations: [NSNumber]? = nil) -> CAGradientLayer {
         let gradient: CAGradientLayer = CAGradientLayer()
@@ -97,35 +147,9 @@ extension IPaDesignable where Self:UIView {
     
 }
 extension IPaDesignableShadow where Self:IPaDesignable {
-    func setShadowColor(_ shadowColor:UIColor?) {
-        self.layer.shadowColor = shadowColor?.cgColor
-    }
-    func getShadowColor() -> UIColor? {
-        if let color = self.layer.shadowColor {
-            return UIColor(cgColor: color)
-        }
-        return nil
-    }
-    func setShadowOffset(_ shadowOffset: CGSize) {
-        self.layer.shadowOffset = shadowOffset
-    }
-    func getShadowOffset() -> CGSize {
-        return self.layer.shadowOffset
-    }
-    func setShadowOpacity(_ shadowOffset: CGFloat) {
-        self.layer.shadowOpacity = Float(shadowOffset)
-    }
-    func getShadowOpacity() -> CGFloat {
-        return CGFloat(self.layer.shadowOpacity)
-    }
     
-    func setShadowBlur(_ blur:CGFloat) {
-        self.layer.shadowRadius = shadowBlur * 0.5 
-        
-    }
-    func getShadowBlur() -> CGFloat {
-        return self.layer.shadowRadius * 2
-    }
+    
+    
     func updateShadowPath(_ forcePath:Bool = false) {
         if shadowSpread == 0 && !forcePath {
             self.layer.shadowPath = nil

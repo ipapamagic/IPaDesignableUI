@@ -11,30 +11,6 @@ import IPaImageTool
 //@IBDesignable
 open class IPaDesignableLabel: UILabel,IPaDesignable ,IPaDesignableTextInset{
     open var cornerMask:CAShapeLayer?
-    @IBInspectable open var cornerRadius:CGFloat {
-        get {
-            return self.getCornerRadius()
-        }
-        set {
-            self.setCornerRadius(newValue)
-        }
-    }
-    @IBInspectable open var borderWidth:CGFloat {
-        get {
-            return self.getBorderWidth()
-        }
-        set {
-            self.setBorderWidth(newValue)
-        }
-    }
-    @IBInspectable open var borderColor:UIColor? {
-        get {
-            return self.getBorderColor()
-        }
-        set {
-            self.setBorderColor(newValue)
-        }
-    }
     @IBInspectable public var bottomInset: CGFloat {
         get {
             return textInsets.bottom
@@ -108,9 +84,6 @@ open class IPaDesignableLabel: UILabel,IPaDesignable ,IPaDesignableTextInset{
         
         let textRect = bounds.inset(by: self.textInsets)
         return super.textRect(forBounds: textRect, limitedToNumberOfLines: numberOfLines)
-    }
-    open func roundCorners(corners: UIRectCorner, radius: CGFloat) {
-        self.doRoundCorners(corners: corners, radius: radius)
     }
     open func setHtmlContent(_ content:String,encoding:String.Encoding = .utf8,replacePtToPx:Bool = true) {
         var content = replacePtToPx ? IPaDesignableLabel.replaceCSSPtToPx(with: content) : content

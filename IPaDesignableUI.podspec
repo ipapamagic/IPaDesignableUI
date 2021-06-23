@@ -30,7 +30,7 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '11.0'
 
   s.source_files = 'IPaDesignableUI/Classes/**/*'
-  s.swift_version = '5.2'
+  s.swift_version = '5.3'
   # s.resource_bundles = {
   #   'IPaDesignableUI' => ['IPaDesignableUI/Assets/*.png']
   # }
