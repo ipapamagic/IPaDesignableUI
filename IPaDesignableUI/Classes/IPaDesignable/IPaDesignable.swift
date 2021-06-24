@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIView {
-    @IBInspectable var maskToBounds:Bool {
+    @IBInspectable public var maskToBounds:Bool {
         get {
             return self.layer.masksToBounds
         }
@@ -16,7 +16,7 @@ extension UIView {
             self.layer.masksToBounds = newValue
         }
     }
-    @IBInspectable var cornerRadius:CGFloat {
+    @IBInspectable public var cornerRadius:CGFloat {
         get {
             return self.layer.cornerRadius
         }
@@ -24,7 +24,7 @@ extension UIView {
             self.layer.cornerRadius = newValue
         }
     }
-    @IBInspectable var borderWidth:CGFloat {
+    @IBInspectable public var borderWidth:CGFloat {
         get {
             return self.layer.borderWidth
         }
@@ -32,7 +32,7 @@ extension UIView {
             self.layer.borderWidth = newValue
         }
     }
-    @IBInspectable var borderColor:UIColor? {
+    @IBInspectable public var borderColor:UIColor? {
         get {
             if let color = self.layer.borderColor {
                 return UIColor(cgColor: color)
@@ -43,7 +43,7 @@ extension UIView {
             self.layer.borderColor = newValue?.cgColor
         }
     }
-    @IBInspectable var shadowColor:UIColor? {
+    @IBInspectable public var shadowColor:UIColor? {
         get {
             if let color = self.layer.shadowColor {
                 return UIColor(cgColor: color)
@@ -54,7 +54,7 @@ extension UIView {
             self.layer.shadowColor = newValue?.cgColor
         }
     }
-    @IBInspectable var shadowRadius:CGFloat {
+    @IBInspectable public var shadowRadius:CGFloat {
         get {
             return self.layer.shadowRadius
         }
@@ -62,7 +62,7 @@ extension UIView {
             self.layer.shadowRadius = newValue
         }
     }
-    @IBInspectable var shadowBlur:CGFloat {
+    @IBInspectable public var shadowBlur:CGFloat {
         get {
             return self.shadowRadius * 2
         }
@@ -70,7 +70,7 @@ extension UIView {
             self.shadowRadius = newValue * 0.5
         }
     }
-    @IBInspectable var shadowOffset:CGSize {
+    @IBInspectable public var shadowOffset:CGSize {
         get {
             return self.layer.shadowOffset
         }
@@ -78,7 +78,7 @@ extension UIView {
             self.layer.shadowOffset = newValue
         }
     }
-    @IBInspectable var shadowOpacity:Float {
+    @IBInspectable public var shadowOpacity:Float {
         get {
             return self.layer.shadowOpacity
         }
