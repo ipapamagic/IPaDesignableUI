@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'IPaDesignableUI'
-  s.version          = '4.0'
+  s.version          = '4.1'
   s.summary          = 'A short description of IPaDesignableUI.'
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -29,7 +29,7 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '11.0'
 
-  s.source_files = 'IPaDesignableUI/Classes/**/*'
+  # s.source_files = 'IPaDesignableUI/Classes/**/*'
   s.swift_version = '5.3'
   # s.resource_bundles = {
   #   'IPaDesignableUI' => ['IPaDesignableUI/Assets/*.png']
@@ -38,7 +38,30 @@ TODO: Add long description of the pod here.
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
-  s.dependency 'IPaDownloadManager', '~> 1.3'
-  s.dependency 'IPaImageTool', '~> 2.3'
-  s.dependency 'IPaFileCache', '~> 1.0'
+  s.dependency 'IPaUIKitHelper', '~> 1.0'
+  s.dependency 'IPaLog', '~> 3.0'
+  s.subspec 'IPaDesignable' do |sp|
+    sp.source_files = 'IPaDesignableUI/Classes/IPaDesignable/*'
+    
+  end
+  s.subspec 'IPaFitContent' do |sp|
+    sp.source_files = 'IPaDesignableUI/Classes/IPaFitContent/*'
+    sp.dependency 'IPaDesignableUI/IPaDesignable'
+  end
+  s.subspec 'IPaImageURL' do |sp|
+    sp.source_files = 'IPaDesignableUI/Classes/IPaImageURL/*'
+    sp.dependency 'IPaDesignableUI/IPaDesignable'
+    s.dependency 'IPaDownloadManager', '~> 1.3'
+    s.dependency 'IPaImageTool', '~> 2.3'
+    s.dependency 'IPaFileCache', '~> 1.0'
+  end
+  s.subspec 'IPaNestedScrollView' do |sp|
+    sp.source_files = 'IPaDesignableUI/Classes/IPaNestedScrollView/*'
+    sp.dependency 'IPaDesignableUI/IPaDesignable'
+  end
+  s.subspec 'IPaStyleButton' do |sp|
+    sp.source_files = 'IPaDesignableUI/Classes/IPaStyleButton/*'
+    sp.dependency 'IPaDesignableUI/IPaDesignable'
+  end
+  
 end

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import IPaUIKitHelper
 //@IBDesignable
 open class IPaDesignableTextView: UITextView,IPaDesignable,IPaDesignableShadow,IPaDesignableTextInset,IPaDesignableCanBeInnerScrollView {
     @IBInspectable open var simultaneouslyOtherGesture: Bool = false
@@ -63,38 +64,7 @@ open class IPaDesignableTextView: UITextView,IPaDesignable,IPaDesignableShadow,I
         setNeedsDisplay()
         return label
     }()
-    @IBInspectable public var bottomInset: CGFloat {
-        get {
-            return textContainerInset.bottom
-        }
-        set {
-            textContainerInset.bottom = newValue
-        }
-    }
-    @IBInspectable public var leftInset: CGFloat {
-        get {
-            return textContainerInset.left
-        }
-        set {
-            textContainerInset.left = newValue
-        }
-    }
-    @IBInspectable public var rightInset: CGFloat {
-        get {
-            return textContainerInset.right
-        }
-        set {
-            textContainerInset.right = newValue
-        }
-    }
-    @IBInspectable public var topInset: CGFloat {
-        get {
-            return textContainerInset.top
-        }
-        set {
-            textContainerInset.top = newValue
-        }
-    }
+    
     /*
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.

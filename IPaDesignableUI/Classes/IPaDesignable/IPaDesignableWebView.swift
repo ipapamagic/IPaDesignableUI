@@ -27,22 +27,7 @@ open class IPaDesignableWebView: WKWebView ,IPaDesignable,IPaDesignableShadow,IP
             self.updateShadowPath()
         }
     }
-    @IBInspectable open var isScrollEnabled: Bool {
-        get {
-            return self.scrollView.isScrollEnabled
-        }
-        set  {
-            self.scrollView.isScrollEnabled = newValue
-        }
-    }
-    @IBInspectable open var bounces: Bool {
-        get {
-            return self.scrollView.bounces
-        }
-        set  {
-            self.scrollView.bounces = newValue
-        }
-    }
+    
     override init(frame: CGRect, configuration: WKWebViewConfiguration) {
         super.init(frame: frame, configuration: configuration)
         self.initialJSScript()

@@ -31,6 +31,7 @@ open class IPaWebViewOpenUrlHandler:NSObject,WKNavigationDelegate {
         guard let url = request.url else {
             return .allow
         }
+        
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
         return .cancel
     }
